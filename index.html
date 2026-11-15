@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Escuela de baile, danza, música y bienestar en Leganés y Alcorcón.">
+<title>Artefusión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Concepto: "Todo late a 120 bpm". Colores del logo (cian, naranja, verde) sobre negro azulado y papel crema. Un pulso de 0,5 s (120 bpm) mueve el menú, el título y el ecualizador. */
+:root{
+  --ink:#0b0e14; --ink-2:#151a24; --ink-3:#232a38;
+  --paper:#f4efe4; --paper-2:#e9e2d2;
+  --cyan:#00b5d1; --orange:#fa7902; --green:#08f70b;
+  --muted-d:#a9b2c0; --muted-l:#4a4f5a;
+  --f-display:"Bricolage Grotesque","Arial Narrow",Arial,sans-serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-io:cubic-bezier(.77,0,.175,1);
+  --gut:clamp(16px,4vw,56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 17px/1.55 var(--f-body);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+a:focus-visible,button:focus-visible{outline:3px solid currentColor;outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{width:100%;max-width:1440px;margin:0 auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.eyebrow{font:600 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase}
+.display{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;text-transform:uppercase;line-height:.9;letter-spacing:-.01em;text-wrap:balance}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:2px solid transparent;font:600 16px/1 var(--f-body);text-decoration:none;cursor:pointer;transition:transform 160ms var(--ease-out),background-color 200ms ease,color 200ms ease,border-color 200ms ease}
+.btn:active{transform:scale(.97)}
+.btn--orange{background:var(--orange);color:var(--ink)}
+.btn--ink{background:var(--ink);color:var(--paper)}
+.btn--paper{background:var(--paper);color:var(--ink)}
+.btn--line{border-color:currentColor;background:transparent}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:scale(.97)}
+  .btn--orange:hover{background:var(--paper)}
+  .btn--ink:hover{background:var(--ink-3)}
+  .btn--paper:hover{background:var(--cyan)}
+  .btn--line:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+}
+.arrow{width:18px;height:18px;flex:none}
+
+/* navegación */
+.nav{position:fixed;z-index:50;top:max(12px,env(safe-area-inset-top,0px));left:0;right:0;pointer-events:none}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto;width:fit-content;min-width:min(100% - 2*max(var(--gut),env(safe-area-inset-left,0px)),1440px - 2*var(--gut));max-width:calc(100% - 2*max(var(--gut),env(safe-area-inset-left,0px)));margin:0 auto;padding:8px 8px 8px 22px;border-radius:999px;background:rgba(11,14,20,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(244,239,228,.12)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 24px/1 var(--f-display);font-variation-settings:"wdth" 80;letter-spacing:-.02em;min-height:44px}
+.beat{width:10px;height:10px;border-radius:50%;background:var(--green);animation:beat .5s ease-out infinite}
+@keyframes beat{0%{transform:scale(1.7);opacity:1}100%{transform:scale(1);opacity:.7}}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-cta{min-height:44px;padding:0 20px;font-size:15px}
+.menu-btn{min-height:44px;min-width:44px;padding:0 18px;border-radius:999px;border:2px solid rgba(244,239,228,.35);background:transparent;color:var(--paper);font:600 15px/1 var(--f-body);cursor:pointer;transition:background-color 200ms,transform 160ms var(--ease-out)}
+.menu-btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.menu-btn:hover{background:var(--paper);color:var(--ink)}}
+@media (max-width:560px){.nav-cta{display:none}.nav-in{padding-left:18px}}
+
+.menu{position:fixed;inset:0;z-index:60;background:var(--ink);visibility:hidden;clip-path:circle(0 at calc(100% - 52px) 40px);transition:clip-path .7s var(--ease-io),visibility 0s .7s;overflow-y:auto}
+.menu.open{visibility:visible;clip-path:circle(150% at calc(100% - 52px) 40px);transition:clip-path .7s var(--ease-io),visibility 0s}
+.menu-in{min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:28px;padding-block:96px 40px}
+.menu-close{position:absolute;top:max(12px,env(safe-area-inset-top,0px));right:max(var(--gut),env(safe-area-inset-right,0px));z-index:2}
+.menu ol{display:flex;flex-direction:column}
+.menu li{overflow:hidden;border-bottom:1px solid rgba(244,239,228,.14)}
+.menu li a{display:flex;align-items:baseline;gap:16px;padding:6px 0;text-decoration:none;font:800 clamp(2rem,6.4vw,4.6rem)/1.05 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase;transform:translateY(105%);transition:transform .6s var(--ease-out),color .2s}
+.menu li a small{font:600 13px/1 var(--f-body);color:var(--muted-d);letter-spacing:.1em}
+.menu.open li a{transform:none;transition-delay:calc(var(--i)*45ms + 250ms),0s}
+@media (hover:hover) and (pointer:fine){.menu li a:hover{color:var(--orange)}}
+.menu-foot{display:flex;flex-wrap:wrap;gap:12px 28px;color:var(--muted-d);font-size:16px}
+.menu-foot a{min-height:44px;display:inline-flex;align-items:center}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;overflow:clip;background:var(--ink);isolation:isolate}
+#trail{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.hero-in{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:20px;gap:clamp(14px,2.4svh,28px)}
+.hero-kicker{color:var(--muted-d);max-width:34ch}
+.hero-title{font-family:var(--f-display);text-transform:uppercase;line-height:.8;font-size:min(27vw,29svh);margin-left:-.02em}
+.hero-title .line{display:block;white-space:nowrap}
+.hero-title .line:nth-child(2){padding-left:min(9vw,8rem)}
+.ch{display:inline-block;text-align:center;font-variation-settings:"wght" 800,"wdth" 75;will-change:transform;animation:drop 1.5s both;animation-delay:calc(var(--i)*70ms + .15s)}
+@keyframes drop{
+  0%{transform:translateY(-110svh) rotate(var(--r));opacity:0;animation-timing-function:cubic-bezier(.55,0,.9,.5)}
+  8%{opacity:1}
+  55%{transform:translateY(0) rotate(0);animation-timing-function:cubic-bezier(.2,.7,.4,1)}
+  72%{transform:translateY(-9%) rotate(calc(var(--r)*-.12));animation-timing-function:cubic-bezier(.6,0,.9,.5)}
+  86%{transform:translateY(0) rotate(0);animation-timing-function:cubic-bezier(.2,.7,.4,1)}
+  93%{transform:translateY(-2.5%)}
+  100%{transform:translateY(0) rotate(0)}
+}
+.hero-title .line:nth-child(2) .ch:nth-child(3n+1){color:var(--cyan)}
+.hero-title .line:nth-child(2) .ch:nth-child(3n+2){color:var(--orange)}
+.hero-title .line:nth-child(2) .ch:nth-child(3n){color:var(--green)}
+.hero-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 40px}
+.hero-sub{max-width:44ch;font-size:clamp(1.05rem,1.5vw,1.3rem);color:var(--paper)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-fade{opacity:0;transform:translateY(16px);animation:fadeUp .8s var(--ease-out) 1.5s forwards}
+.hero-fade.d2{animation-delay:1.65s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+.eq{height:clamp(56px,11svh,110px);display:flex;align-items:flex-end;gap:3px;padding-inline:max(var(--gut),env(safe-area-inset-left,0px));margin-top:12px}
+.eq i{flex:1;height:100%;transform-origin:50% 100%;transform:scaleY(.1);animation:eq var(--d,.5s) ease-in-out infinite alternate;animation-delay:var(--dl,0s);border-radius:2px 2px 0 0;will-change:transform}
+.eq i:nth-child(3n+1){background:var(--cyan)}
+.eq i:nth-child(3n+2){background:var(--orange)}
+.eq i:nth-child(3n){background:var(--green)}
+@keyframes eq{to{transform:scaleY(var(--h,.6))}}
+.hero.paused .eq i,.hero.paused .beat{animation-play-state:paused}
+
+.sticker{position:absolute;z-index:2;right:max(var(--gut),env(safe-area-inset-right,0px));top:50%;margin-top:-8svh;width:clamp(150px,15vw,230px);aspect-ratio:1;display:none}
+.sticker a{position:relative;display:block;width:100%;height:100%;border-radius:50%;background:var(--orange);color:var(--ink);transition:transform 200ms var(--ease-out),background-color .2s}
+.sticker a:active{transform:scale(.97)}
+.sticker svg.rot{position:absolute;inset:0;width:100%;height:100%;animation:spin 16s linear infinite}
+.sticker text{font:800 15.5px var(--f-display);letter-spacing:.16em;text-transform:uppercase;fill:var(--ink)}
+.sticker .arrow{position:absolute;inset:0;margin:auto;width:34%;height:34%;transition:transform .4s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.sticker a:hover{background:var(--paper)}.sticker a:hover .arrow{transform:rotate(-45deg)}}
+@media (min-width:980px){.sticker{display:block}}
+/* banda de disciplinas */
+.marquee{background:var(--orange);color:var(--ink);overflow:hidden;padding-block:14px;border-block:2px solid var(--ink)}
+.marquee-track{display:flex;width:max-content;animation:mq 46s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-set{display:flex;align-items:center;gap:28px;padding-right:28px;white-space:nowrap;font:800 clamp(1.5rem,3vw,2.4rem)/1 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase}
+.marquee-set span.dot{width:12px;height:12px;border-radius:50%;background:var(--ink)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* disciplinas fijas con scroll */
+.disc{position:relative;height:430svh;--bg:var(--cyan);--fg:var(--ink)}
+.disc[data-i="1"]{--bg:var(--orange)}
+.disc[data-i="2"]{--bg:var(--green)}
+.disc[data-i="3"]{--bg:var(--paper)}
+.disc-stick{position:sticky;top:0;height:100svh;background:var(--bg);color:var(--fg);transition:background-color .6s var(--ease-io);display:flex;flex-direction:column;justify-content:space-between;padding-block:max(92px,calc(env(safe-area-inset-top,0px) + 80px)) 28px;overflow:clip}
+.disc-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px}
+.disc-nav{display:flex;flex-wrap:wrap;gap:8px}
+.disc-nav button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid currentColor;background:transparent;color:inherit;font:600 15px/1 var(--f-body);cursor:pointer;transition:background-color 200ms,color 200ms,transform 160ms var(--ease-out)}
+.disc-nav button:active{transform:scale(.97)}
+.disc-nav button[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.disc-count{font:800 clamp(1.4rem,2.4vw,2rem)/1 var(--f-display);font-variation-settings:"wdth" 80;font-feature-settings:"tnum"}
+.disc-bar{height:3px;background:rgba(11,14,20,.18);position:relative}
+.disc-bar b{position:absolute;inset:0 auto 0 0;width:0;background:var(--ink)}
+.words{display:grid}
+.word{grid-area:1/1;display:flex;overflow:hidden;white-space:nowrap;padding-block:.1em .02em;font-family:var(--f-display);font-weight:800;text-transform:uppercase;line-height:.92;font-variation-settings:"wdth" 75;font-size:min(var(--fs),34svh)}
+.word .l{display:inline-block;transform:translateY(135%);transition:transform .75s var(--ease-out) calc(var(--i)*40ms)}
+.word.is-active .l{transform:none}
+.word.is-before .l{transform:translateY(-135%);transition-duration:.5s;transition-delay:calc(var(--i)*18ms)}
+.lists{display:grid;margin-top:clamp(10px,2svh,22px)}
+.glist{grid-area:1/1;align-self:start;pointer-events:none}
+.glist .blurb{font-size:clamp(1.05rem,1.5vw,1.3rem);font-weight:500;margin-bottom:14px;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .5s var(--ease-out)}
+.glist ul{display:flex;flex-wrap:wrap;gap:8px 8px;max-width:1100px}
+.glist li{padding:9px 18px;border:2px solid currentColor;border-radius:999px;font:600 clamp(15px,1.5vw,18px)/1.2 var(--f-body);opacity:0;transform:translateY(14px);transition:opacity .3s,transform .5s var(--ease-out);transition-delay:0s}
+.glist.is-active{pointer-events:auto}
+.glist.is-active .blurb{opacity:1;transform:none;transition-delay:.25s}
+.glist.is-active li{opacity:1;transform:none;transition-delay:calc(.3s + var(--j)*40ms)}
+.disc-foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.disc-foot p{font-size:16px;max-width:46ch}
+html:not(.js) .disc{height:auto}
+html:not(.js) .disc-stick{position:static;height:auto}
+html:not(.js) .word:not(:first-child){display:none}
+
+/* frase */
+.statement{background:var(--paper);color:var(--ink);padding-block:clamp(72px,12vw,160px)}
+.statement-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(24px,5vw,80px);align-items:start}
+.statement-text{font-family:var(--f-display);font-weight:700;font-variation-settings:"wdth" 82;font-size:clamp(2rem,4.5vw,4.5rem);line-height:1.04;letter-spacing:-.015em}
+.statement .eyebrow{margin-bottom:24px;display:block}
+.w{opacity:.16;transition:opacity .25s ease,background-size .5s var(--ease-out);background:linear-gradient(var(--hl,transparent),var(--hl,transparent)) 0 88%/0% .42em no-repeat;border-radius:2px}
+.w.on{opacity:1}
+.w[data-hl].on{background-size:100% .42em}
+.w[data-hl="c"]{--hl:var(--cyan)}.w[data-hl="o"]{--hl:var(--orange)}.w[data-hl="g"]{--hl:var(--green)}
+.collage{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.collage .ph:first-child{transform:rotate(-2.5deg)}
+.collage .ph:last-child{transform:rotate(2.5deg);margin-top:14%}
+
+/* marcos de foto */
+.ph{position:relative;overflow:hidden;background:var(--ink-2);aspect-ratio:4/5;isolation:isolate;--c1:var(--cyan);--c2:var(--orange);--c3:var(--green)}
+.ph::before{content:"";position:absolute;inset:-25%;z-index:-1;background:radial-gradient(circle at 50% 50%,transparent 0 6%,var(--c1) 6% 14%,transparent 14% 22%,var(--c2) 22% 30%,transparent 30% 38%,var(--c3) 38% 46%,transparent 46% 54%,var(--c1) 54% 62%,transparent 62%);animation:rings 1s ease-in-out infinite alternate}
+.ph[data-v="2"]::before{background:repeating-linear-gradient(115deg,var(--c1) 0 28px,var(--ink-2) 28px 40px,var(--c2) 40px 68px,var(--ink-2) 68px 80px,var(--c3) 80px 108px,var(--ink-2) 108px 120px);animation:slide 6s linear infinite}
+.ph[data-v="3"]::before{background:conic-gradient(from 0deg at 50% 60%,var(--c1),var(--c2),var(--c3),var(--c1));animation:spin 14s linear infinite}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.ph:hover img{transform:scale(1.03)}}
+@keyframes rings{from{transform:scale(.9)}to{transform:scale(1.12)}}
+@keyframes slide{to{transform:translateX(120px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* cifras y premios */
+.nums{background:var(--ink);padding-block:clamp(72px,10vw,140px)}
+.nums h2{font-size:clamp(2.6rem,7vw,7rem);max-width:12ch}
+.nums-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,3vw,40px);margin-top:clamp(36px,6vw,80px)}
+.num{border-top:3px solid var(--c);padding-top:16px}
+.num b{display:block;font:800 clamp(3.6rem,10vw,9rem)/.85 var(--f-display);font-variation-settings:"wdth" 75;color:var(--c);font-feature-settings:"tnum"}
+.num span{display:block;margin-top:12px;color:var(--muted-d);font-size:16px;max-width:20ch}
+.awards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:clamp(36px,6vw,72px)}
+.award{padding:clamp(20px,3vw,36px);border:2px solid var(--ink-3);border-radius:20px;display:flex;flex-direction:column;gap:14px;transition:border-color .25s,transform .25s var(--ease-out)}
+.award .eyebrow{color:var(--cyan)}
+.award p{font:700 clamp(1.3rem,2.2vw,1.9rem)/1.15 var(--f-display);font-variation-settings:"wdth" 85}
+@media (hover:hover) and (pointer:fine){.award:hover{border-color:var(--orange);transform:translateY(-2px)}}
+
+/* eventos */
+.events{background:var(--ink-2);padding-block:clamp(72px,10vw,140px)}
+.events h2{font-size:clamp(2.6rem,7vw,7rem);margin-bottom:clamp(28px,5vw,60px)}
+.ev{position:relative;display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,.8fr) 44px;gap:8px 28px;align-items:center;padding:clamp(18px,2.6vw,34px) 0;border-top:2px solid var(--ink-3);text-decoration:none;color:var(--paper);isolation:isolate;transition:color .3s}
+.ev:last-child{border-bottom:2px solid var(--ink-3)}
+.ev::before{content:"";position:absolute;inset:0 calc(-1*max(var(--gut),env(safe-area-inset-left,0px)));z-index:-1;background:var(--c);clip-path:inset(100% 0 0 0);transition:clip-path .5s var(--ease-out)}
+.ev .n{font:600 14px/1 var(--f-body);color:var(--muted-d);transition:color .3s}
+.ev h3{font:800 clamp(2rem,6.2vw,6rem)/.95 var(--f-display);font-variation-settings:"wdth" 75;text-transform:uppercase;overflow-wrap:anywhere}
+.ev p{font-size:16px;color:var(--muted-d);transition:color .3s}
+.ev .go{width:44px;height:44px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;transition:transform .4s var(--ease-out),background-color .3s}
+@media (hover:hover) and (pointer:fine){
+  .ev:hover,.ev:focus-visible{color:var(--ink)}
+  .ev:hover::before,.ev:focus-visible::before{clip-path:inset(0 0 0 0)}
+  .ev:hover .n,.ev:hover p,.ev:focus-visible .n,.ev:focus-visible p{color:var(--ink)}
+  .ev:hover .go{transform:rotate(-45deg) scale(1.08);background:var(--ink);color:var(--paper)}
+}
+.ev:active::before{clip-path:inset(0 0 0 0)}
+@media (max-width:760px){.ev{grid-template-columns:34px minmax(0,1fr) 44px}.ev p{grid-column:2/3;grid-row:2}.ev .go{grid-row:1/3;grid-column:3}}
+
+/* sedes */
+.sedes-sec{background:var(--paper);color:var(--ink);padding-block:clamp(72px,10vw,140px)}
+.sedes-sec h2{font-size:clamp(2.6rem,7vw,7rem);margin-bottom:clamp(28px,5vw,56px);max-width:11ch}
+.sedes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;transition:grid-template-columns .6s var(--ease-io)}
+@media (hover:hover) and (pointer:fine) and (min-width:861px){
+  .sedes:has(.sede:first-child:hover){grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr)}
+  .sedes:has(.sede:last-child:hover){grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr)}
+}
+.sede{background:var(--c);color:var(--ink);border-radius:24px;padding:clamp(18px,2.4vw,32px);display:flex;flex-direction:column;gap:22px;min-width:0}
+.sede .ph{aspect-ratio:16/10;border-radius:14px}
+.sede h3{font:800 clamp(3rem,8.4vw,8.6rem)/.85 var(--f-display);font-variation-settings:"wdth" 75;text-transform:uppercase;overflow-wrap:anywhere}
+.sede .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+.sede .acts .btn{min-height:48px;padding:0 20px}
+.sede .tel{font-weight:600;font-size:16px}
+
+/* extras */
+.extras{background:var(--ink);padding-block:clamp(72px,10vw,140px)}
+.extras h2{font-size:clamp(2.6rem,7vw,7rem);margin-bottom:clamp(28px,5vw,56px)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
+.tile{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:36px;min-height:260px;padding:24px;border-radius:20px;border:2px solid var(--ink-3);text-decoration:none;color:var(--paper);overflow:hidden;isolation:isolate;transition:color .3s,transform .3s var(--ease-out)}
+.tile::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--c);clip-path:circle(0 at 100% 100%);transition:clip-path .55s var(--ease-out)}
+.tile h3{font:800 clamp(1.8rem,3vw,2.6rem)/.95 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase}
+.tile p{font-size:16px;color:var(--muted-d);transition:color .3s;margin-top:10px}
+.tile .go{align-self:flex-end}
+@media (hover:hover) and (pointer:fine){
+  .tile:hover,.tile:focus-visible{color:var(--ink);transform:translateY(-2px)}
+  .tile:hover::before,.tile:focus-visible::before{clip-path:circle(150% at 100% 100%)}
+  .tile:hover p,.tile:focus-visible p{color:var(--ink)}
+}
+
+/* festival solidario */
+.soli{background:var(--orange);color:var(--ink);padding-block:clamp(72px,10vw,140px);overflow:clip}
+.soli-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(28px,6vw,90px);align-items:center}
+.soli h2{font-size:clamp(3rem,9vw,9.4rem);margin-bottom:24px}
+.soli p.lead{font-size:clamp(1.1rem,1.8vw,1.5rem);max-width:36ch;font-weight:500;margin-bottom:28px}
+.ring{position:relative;width:min(100%,430px);aspect-ratio:1;margin-inline:auto}
+.ring svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 22s linear infinite}
+.ring text{font:800 21px var(--f-display);letter-spacing:.14em;text-transform:uppercase;fill:var(--ink)}
+.ring .ph{position:absolute;inset:17%;border-radius:50%;aspect-ratio:1}
+
+/* cierre */
+.cta{background:var(--green);color:var(--ink);padding-block:clamp(72px,11vw,160px);overflow:clip}
+.cta h2{font-size:clamp(3.4rem,12.5vw,13rem);margin-bottom:clamp(24px,4vw,48px)}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta .btn{min-height:60px;padding:0 34px;font-size:18px}
+
+footer{background:var(--ink);padding-block:64px 36px;color:var(--muted-d);font-size:16px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(0,1fr));gap:36px}
+.foot-grid h3{font:600 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);margin-bottom:14px}
+.foot-grid a{display:flex;align-items:center;min-height:44px;text-decoration:none}
+@media (hover:hover) and (pointer:fine){.foot-grid a:hover{color:var(--orange)}}
+.foot-big{font:800 clamp(3.4rem,17vw,19rem)/.8 var(--f-display);font-variation-settings:"wdth" 75;text-transform:uppercase;color:var(--ink-2);margin-top:48px;white-space:nowrap;overflow:clip;text-align:center;user-select:none}
+.foot-legal{display:flex;flex-wrap:wrap;gap:6px 24px;margin-top:28px;font-size:14px}
+
+/* aparición al hacer scroll */
+html.js .rv{opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease-out),transform .8s var(--ease-out);transition-delay:calc(var(--d,0)*80ms)}
+html.js .rv.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .nums-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}
+  .statement-grid,.soli-grid{grid-template-columns:minmax(0,1fr)}
+  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .foot-grid>div:first-child{grid-column:1/-1}
+}
+@media (max-width:860px){
+  .sedes{grid-template-columns:minmax(0,1fr)}
+  .awards{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .hero-title{font-size:min(30vw,27svh)}
+  .hero-title .line:nth-child(2){padding-left:6vw}
+  .hero-actions .btn{flex:1 1 100%}
+  .disc{height:480svh}
+  .disc-foot .btn{width:100%}
+  .disc-top .disc-nav button{padding:0 14px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .ch,.hero-fade{animation:none!important;opacity:1;transform:none}
+  .eq i{animation:none;transform:scaleY(var(--h,.5))}
+  .beat,.marquee-track,.ph::before,.ring svg,.sticker svg.rot{animation:none}
+  html.js .rv{opacity:1;transform:none;transition:none}
+  .word .l,.glist li,.glist .blurb{transition-duration:.01s;transition-delay:0s!important}
+  .menu,.menu.open,.menu li a{transition-duration:.01s;transition-delay:0s}
+}
+</style>
+
+</head>
+<body>
+<a class="sr" href="#contenido">Saltar al contenido</a>
+
+<nav class="nav" aria-label="Principal">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Artefusión, inicio"><span class="beat" aria-hidden="true"></span>artefusión</a>
+    <div class="nav-r">
+      <a class="btn btn--orange nav-cta" href="https://escuelaartefusion.com/prueba-una-clase/">Prueba una clase gratis</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    </div>
+  </div>
+</nav>
+
+<div class="menu" id="menu" role="dialog" aria-label="Menú">
+  <button class="menu-btn menu-close" id="menuClose" type="button">Cerrar</button>
+  <div class="wrap menu-in">
+    <ol>
+      <li><a style="--i:0" href="https://escuelaartefusion.com/prueba-una-clase/"><small>01</small>Prueba una clase gratis</a></li>
+      <li><a style="--i:1" href="horarios.html"><small>02</small>Horarios y actividades</a></li>
+      <li><a style="--i:2" href="https://escuelaartefusion.com/tarifas/"><small>03</small>Tarifas</a></li>
+      <li><a style="--i:3" href="https://escuelaartefusion.com/contacto/"><small>04</small>Contacto</a></li>
+      <li><a style="--i:4" href="https://escuelaartefusion.com/ocio/"><small>05</small>Planes y registros</a></li>
+      <li><a style="--i:5" href="https://escuelaartefusion.com/eventos/"><small>06</small>Eventos realizados</a></li>
+      <li><a style="--i:6" href="https://escuelaartefusion.com/conocenos/"><small>07</small>Conóce Escuela Artefusión</a></li>
+      <li><a style="--i:7" href="https://escuelaartefusion.com/colaborador/"><small>08</small>Empresas colaboradoras</a></li>
+    </ol>
+    <div class="menu-foot">
+      <a href="https://escuelaartefusion.com/nuestro-equipo/">Nuestro equipo</a>
+      <a href="https://escuelaartefusion.com/conocenos/nuestros-espacios/">Espacios Artefusion</a>
+      <a href="https://escuelaartefusion.com/conocenos/print-artefusion/">Merchandising</a>
+      <a href="https://escuelaartefusion.com/conocenos/marcas-asociadas/">Nuestras marcas</a>
+    </div>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <canvas id="trail" aria-hidden="true"></canvas>
+  <div class="wrap hero-in">
+    <p class="eyebrow hero-kicker hero-fade">Baile, danza, música y bienestar · Leganés y Alcorcón</p>
+    <h1 class="hero-title" aria-label="Artefusión"><span class="line">ARTE</span><span class="line">FUSIÓN</span></h1>
+    <div class="hero-row">
+      <p class="hero-sub hero-fade d2">Más de 16 años haciendo bailar al sur de Madrid. Alumnos desde los 3 años, profesores profesionales y trato de casa.</p>
+      <div class="hero-actions hero-fade d2">
+        <a class="btn btn--orange" href="https://escuelaartefusion.com/prueba-una-clase/">Prueba una clase gratis
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--line" href="#disciplinas">Ver qué puedes aprender</a>
+      </div>
+    </div>
+  </div>
+  <div class="sticker hero-fade d2"><a class="mag" href="https://escuelaartefusion.com/prueba-una-clase/" aria-label="Prueba una clase gratis">
+    <svg class="rot" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="circ2" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><text><textPath href="#circ2" textLength="470">Prueba una clase gratis · </textPath></text></svg>
+    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  <div class="eq" id="eq" aria-hidden="true"></div>
+</header>
+
+<main id="contenido">
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-set" data-set></div>
+    <div class="marquee-set" data-set></div>
+  </div>
+</div>
+
+<section class="disc" id="disciplinas" data-i="0" aria-labelledby="disc-h">
+  <div class="disc-stick">
+    <div class="wrap disc-top">
+      <h2 id="disc-h" class="eyebrow">Qué puedes aprender</h2>
+      <div class="disc-nav" id="discNav"></div>
+      <span class="disc-count" id="discCount" aria-hidden="true">01 / 04</span>
+    </div>
+    <div class="wrap">
+      <div class="words" id="words"></div>
+      <div class="lists" id="lists"></div>
+    </div>
+    <div class="wrap">
+      <div class="disc-bar" aria-hidden="true"><b id="discBar"></b></div>
+      <div class="disc-foot" style="margin-top:16px">
+        <p>También hay clases particulares y formación para profesores.</p>
+        <a class="btn btn--ink" href="horarios.html">Ver horarios y actividades</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="statement" aria-label="La escuela">
+  <div class="wrap statement-grid">
+    <div>
+      <span class="eyebrow rv">Quiénes somos</span>
+      <p class="statement-text" id="statement" data-text="Aquí se [c:baila], se [o:toca] y se [g:cuida el cuerpo]. Llevamos más de 16 años en el sur de Madrid, con profesores profesionales, trato cercano y alumnos desde los 3 años."></p>
+    </div>
+    <div class="collage rv">
+      <figure class="ph" data-foto="clase" data-v="1" style="margin:0"><img alt="Alumnos en una clase de baile" hidden></figure>
+      <figure class="ph" data-foto="escenario" data-v="3" style="margin:0"><img alt="Alumnos actuando en el escenario" hidden></figure>
+    </div>
+  </div>
+</section>
+
+<section class="nums" aria-labelledby="nums-h">
+  <div class="wrap">
+    <h2 id="nums-h" class="display rv">Una escuela con premios</h2>
+    <div class="nums-grid">
+      <div class="num rv" style="--c:var(--cyan);--d:0"><b data-to="16" data-suf="+">0</b><span>años enseñando baile, danza, música y bienestar</span></div>
+      <div class="num rv" style="--c:var(--orange);--d:1"><b data-to="2">0</b><span>sedes: Leganés y Alcorcón</span></div>
+      <div class="num rv" style="--c:var(--green);--d:2"><b data-to="3">0</b><span>años, la edad desde la que se puede empezar</span></div>
+      <div class="num rv" style="--c:var(--cyan);--d:3"><b data-to="2">0</b><span>premios Excelencia Educativa 2026</span></div>
+    </div>
+    <div class="awards">
+      <div class="award rv"><span class="eyebrow">Excelencia Educativa 2026</span><p>Mejor centro de formación presencial en artes y movimientos multidisciplinarios</p></div>
+      <div class="award rv" style="--d:1"><span class="eyebrow">Excelencia Educativa 2026</span><p>Mejor imagen de marca artístico-social</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="events" aria-labelledby="ev-h">
+  <div class="wrap">
+    <h2 id="ev-h" class="display rv">Más que clases</h2>
+    <div class="evlist">
+      <a class="ev rv" style="--c:var(--cyan)" href="https://escuelaartefusion.com/ocio/">
+        <span class="n">01</span><h3>Bachasurf</h3><p>Programa de julio y agosto con viajes y actividades de baile. Ya se pueden reservar plazas para 2027.</p>
+        <span class="go"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="ev rv" style="--c:var(--orange)" href="https://escuelaartefusion.com/eventos/">
+        <span class="n">02</span><h3>Salseo SBK</h3><p>Sesión de baile propia y salidas a locales.</p>
+        <span class="go"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="ev rv" style="--c:var(--green)" href="https://escuelaartefusion.com/eventos/">
+        <span class="n">03</span><h3>Arteferial</h3><p>Uno de los eventos de la escuela.</p>
+        <span class="go"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="ev rv" style="--c:var(--cyan)" href="https://escuelaartefusion.com/eventos/">
+        <span class="n">04</span><h3>Sellafusion</h3><p>Actividad de la escuela fuera de las aulas.</p>
+        <span class="go"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="ev rv" style="--c:var(--orange)" href="https://escuelaartefusion.com/eventos/">
+        <span class="n">05</span><h3>Festival Solidario</h3><p>Cada curso, los alumnos actúan en el escenario y se recoge comida para el comedor social Paquita Gallego.</p>
+        <span class="go"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sedes-sec" aria-labelledby="sd-h">
+  <div class="wrap">
+    <h2 id="sd-h" class="display rv">Dos sedes, una familia</h2>
+    <div class="sedes">
+      <article class="sede rv" style="--c:var(--cyan)">
+        <figure class="ph" data-foto="sedeLeganes" data-v="2" style="margin:0"><img alt="Sede de Leganés" hidden></figure>
+        <h3>Leganés</h3>
+        <p class="tel">WhatsApp 623 410 390</p>
+        <div class="acts">
+          <a class="btn btn--ink" href="https://wa.me/34623410390">Escribir por WhatsApp</a>
+          <a class="btn btn--line" href="https://www.instagram.com/escuela_artefusion_leganes/">Instagram</a>
+          <a class="btn btn--line" href="https://escuelaartefusion.com/contacto-escuela-artefusion-leganes/">Datos de contacto</a>
+        </div>
+      </article>
+      <article class="sede rv" style="--c:var(--orange);--d:1">
+        <figure class="ph" data-foto="sedeAlcorcon" data-v="1" style="margin:0"><img alt="Sede de Alcorcón" hidden></figure>
+        <h3>Alcorcón</h3>
+        <p class="tel">WhatsApp 627 965 225</p>
+        <div class="acts">
+          <a class="btn btn--ink" href="https://wa.me/34627965225">Escribir por WhatsApp</a>
+          <a class="btn btn--line" href="https://www.instagram.com/escuela_artefusion_alcorcon/">Instagram</a>
+          <a class="btn btn--line" href="https://escuelaartefusion.com/contacto-escuela-artefusion-alcorcon/">Datos de contacto</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="soli" aria-labelledby="so-h">
+  <div class="wrap soli-grid">
+    <div>
+      <h2 id="so-h" class="display rv">Bailamos por algo</h2>
+      <p class="lead rv">Cada curso, nuestros alumnos suben al escenario del Festival Solidario y recogemos comida para el comedor social Paquita Gallego, de Leganés.</p>
+      <a class="btn btn--ink rv" href="https://escuelaartefusion.com/eventos/">Ver eventos realizados</a>
+    </div>
+    <div class="ring rv" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0"/></defs><text><textPath href="#circ" textLength="505">Escenario · Comunidad · Solidaridad · </textPath></text></svg>
+      <figure class="ph" data-foto="festival" data-v="3" style="margin:0"><img alt="" hidden></figure>
+    </div>
+  </div>
+</section>
+
+<section class="extras" aria-labelledby="ex-h">
+  <div class="wrap">
+    <h2 id="ex-h" class="display rv">Y también</h2>
+    <div class="tiles">
+      <a class="tile rv" style="--c:var(--green)" href="https://escuelaartefusion.com/tarjeta-regalo/"><div><h3>Tarjeta regalo</h3><p>Bonos de horas para baile, música y bienestar.</p></div><svg class="arrow go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="tile rv" style="--c:var(--cyan);--d:1" href="https://escuelaartefusion.com/conocenos/"><div><h3>Fisiofusion</h3><p>Servicio de fisioterapia colaborador de la escuela.</p></div><svg class="arrow go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="tile rv" style="--c:var(--orange);--d:2" href="https://escuelaartefusion.com/conocenos/"><div><h3>Artefusion Print</h3><p>Merchandising personalizado.</p></div><svg class="arrow go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="tile rv" style="--c:var(--green);--d:3" href="https://escuelaartefusion.com/colaborador/"><div><h3>Carnet Joven</h3><p>Colaborador oficial del Carnet Joven de la Comunidad de Madrid y de la European Youth Card.</p></div><svg class="arrow go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="cta" aria-labelledby="cta-h">
+  <div class="wrap">
+    <h2 id="cta-h" class="display rv">Tu primera clase es gratis</h2>
+    <div class="cta-row rv">
+      <a class="btn btn--ink mag" href="https://escuelaartefusion.com/prueba-una-clase/">Reservar mi clase gratis
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--line mag" href="https://escuelaartefusion.com/tarifas/">Ver tarifas</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h3>Artefusión</h3>
+        <p style="max-width:34ch">Escuela de baile, danza, música y bienestar en Leganés y Alcorcón.</p>
+      </div>
+      <div>
+        <h3>La escuela</h3>
+        <a href="horarios.html">Horarios y actividades</a>
+        <a href="https://escuelaartefusion.com/tarifas/">Tarifas</a>
+        <a href="https://escuelaartefusion.com/conocenos/">Conócenos</a>
+        <a href="https://escuelaartefusion.com/blog/">Blog</a>
+        <a href="https://escuelaartefusion.com/preguntas-frecuentes/">Preguntas frecuentes</a>
+        <a href="https://escuelaartefusion.com/trabaja-con-nosotros/">Trabaja con nosotros</a>
+      </div>
+      <div>
+        <h3>Síguenos</h3>
+        <a href="https://www.instagram.com/escuela_artefusion_leganes/">Instagram Leganés</a>
+        <a href="https://www.instagram.com/escuela_artefusion_alcorcon/">Instagram Alcorcón</a>
+        <a href="https://www.tiktok.com/@escuelaartefusion">TikTok</a>
+        <a href="https://www.youtube.com/c/ArtefusionLeganes">YouTube</a>
+        <a href="https://www.facebook.com/ESCUELA.ARTEFUSION/">Facebook</a>
+        <a href="https://twitter.com/eartefusion">X (Twitter)</a>
+      </div>
+    </div>
+    <div class="foot-big" aria-hidden="true">artefusión</div>
+    <div class="foot-legal">
+      <a href="https://escuelaartefusion.com/politica-privacidad/">Política de privacidad</a>
+      <a href="https://escuelaartefusion.com/colaborador/">Empresas colaboradoras</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var HOVER = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var $ = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var clamp = function(v,a,b){return Math.max(a,Math.min(b,v))};
+
+  /* Fotos: pega aquí las direcciones de tus imágenes (por ejemplo, de la biblioteca de medios de WordPress) */
+  var FOTOS = { clase:"", escenario:"", sedeLeganes:"", sedeAlcorcon:"", festival:"" };
+  $$('.ph[data-foto]').forEach(function(f){
+    var u = FOTOS[f.dataset.foto], im = $('img',f);
+    if(u && im){ im.src = u; im.hidden = false; if(im.alt==="") im.alt=""; }
+  });
+
+  /* Banda de disciplinas */
+  var WORDS = ['Bachata','Salsa','Kizomba','Latín style','Urban','Hip hop','Heels','Afrobeats','Twerk','Bailes de salón','Sevillanas','Danza oriental','Ballet','Jazz','Danza moderna','Pilates','Zumba','Piano','Guitarra flamenca','Canto','DJ'];
+  $$('[data-set]').forEach(function(s){
+    s.innerHTML = WORDS.map(function(w){return '<span>'+w+'</span><span class="dot"></span>'}).join('');
+  });
+
+  /* Ecualizador */
+  var eq = $('#eq'), bars = Math.min(64, Math.round(innerWidth/18));
+  for(var b=0;b<bars;b++){
+    var i = document.createElement('i');
+    i.style.setProperty('--h',(0.15+Math.random()*0.85).toFixed(2));
+    i.style.setProperty('--d',(Math.random()<.65?0.5:1)+'s');
+    i.style.setProperty('--dl',(-Math.random()).toFixed(2)+'s');
+    eq.appendChild(i);
+  }
+
+  /* Título: letras que caen y respiran */
+  var chs = [], n = 0;
+  $$('.hero-title .line').forEach(function(line){
+    var t = line.textContent.trim(); line.textContent='';
+    Array.prototype.forEach.call(t,function(c){
+      var s = document.createElement('span');
+      s.className='ch'; s.textContent=c; s.setAttribute('aria-hidden','true');
+      s.style.setProperty('--i',n++);
+      s.style.setProperty('--r',((Math.random()*44-22)).toFixed(1)+'deg');
+      line.appendChild(s); chs.push(s);
+    });
+  });
+  var mouse = {x:-9999,y:-9999,on:false};
+  var heroEl = $('.hero'), heroVisible = true;
+  function fit(){
+    /* Ajusta el título y las palabras grandes para que siempre quepan en pantalla */
+    var title = $('.hero-title');
+    title.style.fontSize='';
+    chs.forEach(function(c){ c.style.width=''; c.style.fontVariationSettings='"wght" 800,"wdth" 75'; });
+    var avail = title.parentElement.clientWidth - parseFloat(getComputedStyle(title.parentElement).paddingLeft) - parseFloat(getComputedStyle(title.parentElement).paddingRight);
+    var worst = 0;
+    $$('.line',title).forEach(function(l){
+      var pl = parseFloat(getComputedStyle(l).paddingLeft)||0;
+      worst = Math.max(worst, l.scrollWidth + pl);
+    });
+    if(worst > avail){
+      title.style.fontSize = (parseFloat(getComputedStyle(title).fontSize) * (avail/worst) * .97).toFixed(1)+'px';
+    }
+    var wrapW = words.clientWidth;
+    $$('.word').forEach(function(w){
+      w.style.fontSize='';
+      var inner = 0; $$('.l',w).forEach(function(l){ inner += l.getBoundingClientRect().width; });
+      var fs = parseFloat(getComputedStyle(w).fontSize);
+      if(inner > wrapW) w.style.fontSize = (fs*wrapW/inner*.97).toFixed(1)+'px';
+    });
+  }
+  function lock(){
+    fit();
+    chs.forEach(function(c){ c.style.width=''; c._v=null; c.style.fontVariationSettings='"wght" 800,"wdth" 75'; });
+    chs.forEach(function(c){ c._wd = c.offsetWidth; });
+    $$('.hero-title .line').forEach(function(l){
+      var lr = l.getBoundingClientRect(), x = lr.left + scrollX + (parseFloat(getComputedStyle(l).paddingLeft)||0);
+      var cy = lr.top + scrollY + lr.height/2;
+      $$('.ch',l).forEach(function(c){ c._cx = x + c._wd/2; c._cy = cy; x += c._wd; });
+    });
+    chs.forEach(function(c){ c.style.width = c._wd+'px'; if(c._w==null) c._w = 800; });
+  }
+  var start = performance.now();
+  function frame(t){
+    requestAnimationFrame(frame);
+    if(!heroVisible || RM) return;
+    var s = (t-start)/1000;
+    if(s < 1.9) return;
+    var R = Math.min(innerWidth,900)*0.2;
+    for(var k=0;k<chs.length;k++){
+      var c = chs[k];
+      var base = 640 + 150*Math.sin(s*Math.PI*4 - k*0.65);
+      var inf = 0;
+      if(mouse.on){
+        var dx = mouse.x - (c._cx - scrollX), dy = mouse.y - (c._cy - scrollY);
+        inf = clamp(1 - Math.sqrt(dx*dx+dy*dy)/R, 0, 1); inf = inf*inf*(3-2*inf);
+      }
+      var target = base*(1-inf) + 200*inf;
+      c._w += (target - c._w)*.2;
+      var wd = 75 + 25*inf;
+      c.style.fontVariationSettings = '"wght" '+c._w.toFixed(0)+',"wdth" '+wd.toFixed(0);
+    }
+  }
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function(){
+    lock(); requestAnimationFrame(frame);
+  });
+  var rz; addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(lock,150); });
+
+  /* Rastro de color que sigue al cursor */
+  var cv = $('#trail'), cx = cv.getContext('2d'), dots = [], DPR = Math.min(devicePixelRatio||1,2);
+  function sizeCv(){ cv.width = cv.clientWidth*DPR; cv.height = cv.clientHeight*DPR; }
+  sizeCv(); addEventListener('resize',sizeCv);
+  var COL = ['#00b5d1','#fa7902','#08f70b'], ci = 0;
+  heroEl.addEventListener('pointermove',function(e){
+    var r = heroEl.getBoundingClientRect();
+    mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true;
+    if(RM) return;
+    var x = e.clientX - r.left, y = e.clientY - r.top;
+    dots.push({x:x,y:y,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2-.4,l:1,r:6+Math.random()*10,c:COL[ci++%3]});
+    if(dots.length>90) dots.shift();
+  });
+  heroEl.addEventListener('pointerleave',function(){ mouse.on=false; });
+  function paint(){
+    requestAnimationFrame(paint);
+    if(!heroVisible) return;
+    cx.clearRect(0,0,cv.width,cv.height);
+    for(var d=dots.length-1; d>=0; d--){
+      var p = dots[d]; p.x+=p.vx; p.y+=p.vy; p.l-=0.022;
+      if(p.l<=0){ dots.splice(d,1); continue; }
+      cx.globalAlpha = p.l*.75; cx.fillStyle = p.c;
+      cx.beginPath(); cx.arc(p.x*DPR,p.y*DPR,p.r*p.l*DPR,0,6.2832); cx.fill();
+    }
+    cx.globalAlpha = 1;
+  }
+  if(!RM) requestAnimationFrame(paint);
+  new IntersectionObserver(function(es){
+    heroVisible = es[0].isIntersecting; heroEl.classList.toggle('paused',!heroVisible);
+  }).observe(heroEl);
+
+  /* Menú */
+  var menu = $('#menu'), mb = $('#menuBtn'), mc = $('#menuClose');
+  function setMenu(o){
+    menu.classList.toggle('open',o); mb.setAttribute('aria-expanded',o);
+    document.body.style.overflow = o ? 'hidden' : '';
+    if(o) setTimeout(function(){ mc.focus(); },60); else mb.focus();
+  }
+  mb.addEventListener('click',function(){ setMenu(true); });
+  mc.addEventListener('click',function(){ setMenu(false); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape' && menu.classList.contains('open')) setMenu(false); });
+
+  /* Disciplinas */
+  var G = [
+    {n:'Baile', fs:'30vw', b:'Para adultos, junior e infantil.', i:['Bachata sensual y tradicional','Salsa cubana y en línea','Kizomba','Latín style','Urban','Hip hop','Heels','Afrobeats','Twerk','Bailes de salón','Sevillanas','Danza oriental','Bailes nupciales']},
+    {n:'Danza', fs:'30vw', b:'De la pre-danza a la danza moderna.', i:['Pre-danza','Ballet','Jazz','Danza moderna']},
+    {n:'Bienestar', fs:'19vw', b:'Fisioterapia y movimiento para cuidarte.', i:['Fisioterapia','Pilates','Fusiónjump','Zumba']},
+    {n:'Música', fs:'26vw', b:'Instrumentos, voz y escena.', i:['Piano','Guitarra flamenca','Violín','Ukelele','Cajón','Lenguaje musical','Canto','Teatro musical','Cursos de DJ']}
+  ];
+  var words = $('#words'), lists = $('#lists'), dn = $('#discNav'), disc = $('#disciplinas');
+  G.forEach(function(g,gi){
+    var w = document.createElement('div'); w.className='word'; w.style.setProperty('--fs',g.fs);
+    var sr = document.createElement('span'); sr.className='sr'; sr.textContent=g.n; w.appendChild(sr);
+    Array.prototype.forEach.call(g.n.toUpperCase(),function(ch,ci2){
+      var s=document.createElement('span'); s.className='l'; s.textContent=ch; s.style.setProperty('--i',ci2); s.setAttribute('aria-hidden','true'); w.appendChild(s);
+    });
+    words.appendChild(w);
+    var l = document.createElement('div'); l.className='glist';
+    l.innerHTML = '<p class="blurb">'+g.b+'</p><ul>'+g.i.map(function(x,j){return '<li style="--j:'+j+'">'+x+'</li>'}).join('')+'</ul>';
+    lists.appendChild(l);
+    var bt = document.createElement('button'); bt.type='button'; bt.textContent=g.n;
+    bt.addEventListener('click',function(){
+      var r = disc.getBoundingClientRect(), span = disc.offsetHeight - innerHeight;
+      scrollTo({top: r.top + scrollY + span*((gi+.5)/G.length), behavior: RM?'auto':'smooth'});
+    });
+    dn.appendChild(bt);
+  });
+  var cur = -1, wEls = $$('.word'), lEls = $$('.glist'), nb = $$('button',dn);
+  function setG(i){
+    if(i===cur) return; cur=i; disc.dataset.i=i;
+    wEls.forEach(function(w,k){ w.classList.toggle('is-active',k===i); w.classList.toggle('is-before',k<i); });
+    lEls.forEach(function(l,k){ l.classList.toggle('is-active',k===i); });
+    nb.forEach(function(b,k){ b.setAttribute('aria-current',k===i); });
+    $('#discCount').textContent = '0'+(i+1)+' / 0'+G.length;
+  }
+  setG(0);
+
+  /* Frase que se ilumina */
+  var st = $('#statement'), sw = [];
+  st.dataset.text.split(/(\[[cog]:[^\]]+\])/).forEach(function(part){
+    var m = part.match(/^\[([cog]):([^\]]+)\]$/);
+    var hl = m ? m[1] : null, txt = m ? m[2] : part;
+    txt.split(/(\s+)/).forEach(function(tok){
+      if(!tok) return;
+      if(/^\s+$/.test(tok)){ st.appendChild(document.createTextNode(' ')); return; }
+      var s=document.createElement('span'); s.className='w'; s.textContent=tok; if(hl) s.dataset.hl=hl;
+      st.appendChild(s); sw.push(s);
+    });
+  });
+  function lightWords(){
+    var r = st.getBoundingClientRect(), p = clamp((innerHeight*.82 - r.top)/(r.height+innerHeight*.25),0,1);
+    var k = Math.round(p*sw.length*1.15);
+    for(var q=0;q<sw.length;q++) sw[q].classList.toggle('on', RM || q<k);
+  }
+
+  /* Contadores */
+  function count(el){
+    var to = +el.dataset.to, suf = el.dataset.suf||'', t0 = performance.now(), D = 1300;
+    if(RM){ el.textContent = to+suf; return; }
+    (function step(t){
+      var p = clamp((t-t0)/D,0,1), e = 1-Math.pow(1-p,4);
+      el.textContent = Math.round(to*e)+suf;
+      if(p<1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  /* Aparición al hacer scroll */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('in'); io.unobserve(e.target);
+        var c = $('[data-to]',e.target); if(c) count(c);
+      }
+    });
+  },{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+  $$('.rv').forEach(function(el){ io.observe(el); });
+
+  /* Scroll */
+  var tick = false;
+  function onScroll(){
+    tick = false;
+    var r = disc.getBoundingClientRect(), span = disc.offsetHeight - innerHeight;
+    var p = clamp(-r.top/span,0,1);
+    setG(Math.min(G.length-1, Math.floor(p*G.length)));
+    $('#discBar').style.width = (p*100)+'%';
+    lightWords();
+  }
+  addEventListener('scroll',function(){ if(!tick){ tick=true; requestAnimationFrame(onScroll); } },{passive:true});
+  addEventListener('resize',onScroll);
+  onScroll();
+
+  /* Botones magnéticos */
+  if(HOVER && !RM){
+    $$('.mag').forEach(function(m){
+      m.addEventListener('pointermove',function(e){
+        var r = m.getBoundingClientRect();
+        var x = (e.clientX-(r.left+r.width/2))*.22, y = (e.clientY-(r.top+r.height/2))*.3;
+        m.style.transform = 'translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px)';
+      });
+      m.addEventListener('pointerleave',function(){ m.style.transform=''; });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
