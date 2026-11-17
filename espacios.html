@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Alquiler de aulas de Escuela Artefusión en Leganés y Alcorcón: salas de baile y música con precios por hora.">
+<title>Espacios Artefusión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:wght@400;500;600&display=swap">
+<style>
+
+/* Concepto: "Todo late a 120 bpm". Colores del logo (cian, naranja, verde) sobre negro azulado y papel crema. Un pulso de 0,5 s (120 bpm) mueve el menú, el título y el ecualizador. */
+:root{
+  --ink:#0b0e14; --ink-2:#151a24; --ink-3:#232a38;
+  --paper:#f4efe4; --paper-2:#e9e2d2;
+  --cyan:#00b5d1; --orange:#fa7902; --green:#08f70b;
+  --muted-d:#a9b2c0; --muted-l:#4a4f5a;
+  --f-display:"Bricolage Grotesque","Arial Narrow",Arial,sans-serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-io:cubic-bezier(.77,0,.175,1);
+  --gut:clamp(16px,4vw,56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 17px/1.55 var(--f-body);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+a:focus-visible,button:focus-visible{outline:3px solid currentColor;outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{width:100%;max-width:1440px;margin:0 auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.eyebrow{font:600 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase}
+.display{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;text-transform:uppercase;line-height:.9;letter-spacing:-.01em;text-wrap:balance}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:2px solid transparent;font:600 16px/1 var(--f-body);text-decoration:none;cursor:pointer;transition:transform 160ms var(--ease-out),background-color 200ms ease,color 200ms ease,border-color 200ms ease}
+.btn:active{transform:scale(.97)}
+.btn--orange{background:var(--orange);color:var(--ink)}
+.btn--ink{background:var(--ink);color:var(--paper)}
+.btn--paper{background:var(--paper);color:var(--ink)}
+.btn--line{border-color:currentColor;background:transparent}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:scale(.97)}
+  .btn--orange:hover{background:var(--paper)}
+  .btn--ink:hover{background:var(--ink-3)}
+  .btn--paper:hover{background:var(--cyan)}
+  .btn--line:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+}
+.arrow{width:18px;height:18px;flex:none}
+
+/* navegación */
+.nav{position:fixed;z-index:50;top:max(12px,env(safe-area-inset-top,0px));left:0;right:0;pointer-events:none}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto;width:fit-content;min-width:min(100% - 2*max(var(--gut),env(safe-area-inset-left,0px)),1440px - 2*var(--gut));max-width:calc(100% - 2*max(var(--gut),env(safe-area-inset-left,0px)));margin:0 auto;padding:8px 8px 8px 22px;border-radius:999px;background:rgba(11,14,20,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(244,239,228,.12)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 24px/1 var(--f-display);font-variation-settings:"wdth" 80;letter-spacing:-.02em;min-height:44px}
+.beat{width:10px;height:10px;border-radius:50%;background:var(--green);animation:beat .5s ease-out infinite}
+@keyframes beat{0%{transform:scale(1.7);opacity:1}100%{transform:scale(1);opacity:.7}}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-cta{min-height:44px;padding:0 20px;font-size:15px}
+.menu-btn{min-height:44px;min-width:44px;padding:0 18px;border-radius:999px;border:2px solid rgba(244,239,228,.35);background:transparent;color:var(--paper);font:600 15px/1 var(--f-body);cursor:pointer;transition:background-color 200ms,transform 160ms var(--ease-out)}
+.menu-btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.menu-btn:hover{background:var(--paper);color:var(--ink)}}
+@media (max-width:560px){.nav-cta{display:none}.nav-in{padding-left:18px}}
+
+.menu{position:fixed;inset:0;z-index:60;background:var(--ink);visibility:hidden;clip-path:circle(0 at calc(100% - 52px) 40px);transition:clip-path .7s var(--ease-io),visibility 0s .7s;overflow-y:auto}
+.menu.open{visibility:visible;clip-path:circle(150% at calc(100% - 52px) 40px);transition:clip-path .7s var(--ease-io),visibility 0s}
+.menu-in{min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:28px;padding-block:96px 40px}
+.menu-close{position:absolute;top:max(12px,env(safe-area-inset-top,0px));right:max(var(--gut),env(safe-area-inset-right,0px));z-index:2}
+.menu ol{display:flex;flex-direction:column}
+.menu li{overflow:hidden;border-bottom:1px solid rgba(244,239,228,.14)}
+.menu li a{display:flex;align-items:baseline;gap:16px;padding:6px 0;text-decoration:none;font:800 clamp(2rem,6.4vw,4.6rem)/1.05 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase;transform:translateY(105%);transition:transform .6s var(--ease-out),color .2s}
+.menu li a small{font:600 13px/1 var(--f-body);color:var(--muted-d);letter-spacing:.1em}
+.menu.open li a{transform:none;transition-delay:calc(var(--i)*45ms + 250ms),0s}
+@media (hover:hover) and (pointer:fine){.menu li a:hover{color:var(--orange)}}
+.menu-foot{display:flex;flex-wrap:wrap;gap:12px 28px;color:var(--muted-d);font-size:16px}
+.menu-foot a{min-height:44px;display:inline-flex;align-items:center}
+
+
+.beat{animation:beat .5s ease-out infinite}
+.p-hero{background:var(--ink);padding-top:clamp(112px,17svh,160px);padding-bottom:clamp(28px,4vw,56px);overflow:clip}
+.p-kicker{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:clamp(14px,2.4vw,28px)}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 16px;border-radius:999px;border:2px solid var(--ink-3);font:600 13px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase}
+.pill.hot{border-color:var(--orange);color:var(--orange)}
+.p-title{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;text-transform:uppercase;line-height:.84}
+.p-title .t1{display:block;font-size:min(21vw,25svh);overflow:hidden;padding-top:.06em}
+.p-title .t2{display:block;font-size:min(10.5vw,10svh);margin-top:.1em;color:var(--cyan);overflow:hidden;padding-top:.06em}
+.p-title .l{display:inline-block;transform:translateY(115%);animation:rise .85s var(--ease-out) forwards;animation-delay:calc(var(--i)*45ms + .1s)}
+.p-title .sp{display:inline-block;width:.28em}
+@keyframes rise{to{transform:none}}
+.notice{margin-top:clamp(20px,3vw,36px);max-width:760px;padding:18px 22px;border:2px solid var(--orange);border-radius:18px;display:flex;gap:16px;align-items:center;font-size:17px}
+.notice b{color:var(--orange)}
+.notice .beat{background:var(--orange);flex:none}
+.p-hero .fade{opacity:0;transform:translateY(14px);animation:fadeUp .8s var(--ease-out) 1s forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+.lead-in{margin-top:clamp(18px,3vw,30px);max-width:56ch;font-size:clamp(1.1rem,1.6vw,1.35rem);color:var(--paper)}
+.hero-btns{margin-top:clamp(20px,3vw,32px);display:flex;flex-wrap:wrap;gap:12px}
+.menu li a.sub{font-size:clamp(1.3rem,3.2vw,2.2rem);color:var(--muted-d)}
+.sec{background:var(--ink);padding-block:clamp(56px,8vw,110px);--sc:var(--cyan)}
+.sec.alt{background:var(--ink-2)}
+.sec h2{font-size:clamp(2.4rem,6vw,5.6rem);margin-bottom:clamp(18px,3vw,32px)}
+.sec .lede{font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:50ch;color:var(--muted-d);margin:-8px 0 clamp(20px,3vw,36px)}
+.rowc{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink-3);background:transparent;color:var(--paper);font:600 15px/1 var(--f-body);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background-color .2s,color .2s,border-color .2s,transform 160ms var(--ease-out)}
+.chip:active{transform:scale(.97)}
+.chip[aria-pressed="true"]{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.chip:hover:not([aria-pressed="true"]){border-color:var(--paper)}}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:560px;margin-bottom:clamp(18px,3vw,28px)}
+.seg button{min-height:56px;border-radius:16px;border:2px solid var(--ink-3);background:transparent;color:var(--paper);font:800 clamp(1.3rem,2.4vw,1.8rem)/1 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase;cursor:pointer;transition:background-color .25s,border-color .25s,color .25s,transform 160ms var(--ease-out)}
+.seg button:active{transform:scale(.97)}
+.seg button[aria-pressed="true"]{color:var(--ink);background:var(--sc);border-color:var(--sc)}
+.cta{background:var(--green);color:var(--ink);padding-block:clamp(56px,8vw,110px)}
+.cta .cols{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:center;justify-content:space-between}
+.cta h2{font-size:clamp(2.6rem,6.6vw,6.4rem);max-width:12ch}
+.cta .btn{min-height:60px;padding:0 32px;font-size:18px}
+.card2{border-radius:24px;background:var(--ink-2);padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:10px}
+.tagc{padding:5px 12px;border:2px solid var(--ink-3);border-radius:999px;font:600 13px/1.2 var(--f-body);color:var(--muted-d)}
+
+.feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.feat .f{border-radius:24px;padding:clamp(20px,3vw,32px);background:var(--c);color:var(--ink);display:flex;flex-direction:column;gap:10px;min-height:200px}
+.feat h3{font:800 clamp(1.8rem,3vw,2.6rem)/.95 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase}
+.feat p{font-size:17px;font-weight:500;max-width:34ch}
+@media (max-width:860px){.feat{grid-template-columns:minmax(0,1fr)}.feat .f{min-height:0}}
+.rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.room{position:relative;border-radius:28px;background:var(--ink-2);padding:clamp(20px,3vw,36px);display:flex;flex-direction:column;gap:14px;isolation:isolate;overflow:hidden;animation:rowIn .5s var(--ease-out) both;animation-delay:calc(var(--k)*60ms)}
+@keyframes rowIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.room::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--sc);clip-path:inset(100% 0 0 0);transition:clip-path .5s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.room:hover{color:var(--ink)}.room:hover::before{clip-path:inset(0)}.room:hover .tagc{border-color:var(--ink);color:var(--ink)}}
+.room .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.room h3{font:800 clamp(2.2rem,4.4vw,3.8rem)/.88 var(--f-display);font-variation-settings:"wdth" 75;text-transform:uppercase;overflow-wrap:anywhere}
+.room .m2{font:800 clamp(2.6rem,5vw,4.4rem)/.85 var(--f-display);font-variation-settings:"wdth" 75;color:var(--sc);transition:color .3s;white-space:nowrap}
+.room .m2 small{font:600 14px/1 var(--f-body)}
+.room:hover .m2{color:var(--ink)}
+.room .tags{display:flex;flex-wrap:wrap;gap:8px}
+.room .eq{font-size:16px;opacity:.85}
+.room .bot{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.room .pr{font:800 clamp(1.6rem,2.6vw,2.2rem)/1 var(--f-display);font-variation-settings:"wdth" 80}
+.room .pr small{font:600 14px/1 var(--f-body)}
+.room .btn{min-height:48px;padding:0 20px}
+.rent{background:var(--paper);color:var(--ink);padding-block:clamp(56px,8vw,110px)}
+/* formulario */
+.form-sec{background:var(--paper);color:var(--ink);padding-block:clamp(64px,9vw,120px)}
+.form-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(24px,5vw,80px);align-items:start}
+.form-sec h2{font-size:clamp(2.6rem,6.6vw,6.2rem);margin-bottom:18px}
+.form-sec p.t{font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:40ch;margin-bottom:12px}
+form.f{display:flex;flex-direction:column;gap:18px}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld label{font:600 14px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase}
+.fld input,.fld select,.fld textarea{width:100%;min-height:54px;padding:14px 18px;border-radius:16px;border:2px solid var(--ink);background:#fff;color:var(--ink);font:500 17px/1.3 var(--f-body)}
+.fld textarea{min-height:140px;resize:vertical}
+.fld input:focus-visible,.fld select:focus-visible,.fld textarea:focus-visible{outline:3px solid var(--sc,var(--cyan));outline-offset:2px}
+.fld .err{color:#a1001f;font-size:14px;font-weight:600;min-height:0}
+.fld [aria-invalid="true"]{border-color:#a1001f}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:560px){.two{grid-template-columns:minmax(0,1fr)}}
+.send{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.send .btn{min-height:60px;padding:0 32px;font-size:18px}
+.send small{font-size:14px;max-width:34ch;color:var(--muted-l)}
+@media (max-width:900px){.form-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{display:flex;align-items:center;gap:8px;min-height:48px;padding:0 18px;border:2px solid var(--ink);border-radius:999px;font:600 16px/1 var(--f-body);text-transform:none;letter-spacing:0;cursor:pointer}
+.opts input{width:auto;min-height:0;accent-color:var(--ink)}
+footer{background:var(--ink);padding-block:64px 36px;color:var(--muted-d);font-size:16px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(0,1fr));gap:36px}
+.foot-grid h3{font:600 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);margin-bottom:14px}
+.foot-grid a{display:flex;align-items:center;min-height:44px;text-decoration:none}
+@media (hover:hover) and (pointer:fine){.foot-grid a:hover{color:var(--orange)}}
+.foot-big{font:800 clamp(3.4rem,17vw,19rem)/.8 var(--f-display);font-variation-settings:"wdth" 75;text-transform:uppercase;color:var(--ink-2);margin-top:48px;white-space:nowrap;overflow:clip;text-align:center;user-select:none}
+.foot-legal{display:flex;flex-wrap:wrap;gap:6px 24px;margin-top:28px;font-size:14px}
+
+
+/* aparición al hacer scroll */
+html.js .rv{opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease-out),transform .8s var(--ease-out);transition-delay:calc(var(--d,0)*80ms)}
+html.js .rv.in{opacity:1;transform:none}
+
+
+@media (max-width:1000px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.foot-grid>div:first-child{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){
+  .p-title .l,.p-hero .fade,.room{animation:none!important;opacity:1;transform:none}
+  .beat{animation:none}
+  html.js .rv{opacity:1;transform:none;transition:none}
+  .menu,.menu.open,.menu li a{transition-duration:.01s;transition-delay:0s}
+}
+</style>
+</head>
+<body>
+
+
+<a class="sr" href="#contenido">Saltar al contenido</a>
+
+<nav class="nav" aria-label="Principal">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="Artefusión, inicio"><span class="beat" aria-hidden="true"></span>artefusión</a>
+    <div class="nav-r">
+      <a class="btn btn--orange nav-cta" href="prueba.html">Prueba una clase gratis</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    </div>
+  </div>
+</nav>
+
+<div class="menu" id="menu" role="dialog" aria-label="Menú">
+  <button class="menu-btn menu-close" id="menuClose" type="button">Cerrar</button>
+  <div class="wrap menu-in">
+    <ol>
+      <li><a style="--i:0" href="prueba.html"><small>01</small>Prueba una clase gratis</a></li>
+      <li><a style="--i:1" href="horarios.html"><small>02</small>Horarios y actividades</a></li>
+      <li><a style="--i:2" href="tarifas.html"><small>03</small>Tarifas</a></li>
+      <li><a style="--i:3" href="contacto.html"><small>04</small>Contacto</a></li>
+      <li><a style="--i:4" href="planes.html"><small>05</small>Planes y registros</a></li>
+      <li><a style="--i:5" href="https://escuelaartefusion.com/eventos/"><small>06</small>Eventos realizados</a></li>
+      <li><a style="--i:6" href="conocenos.html"><small>07</small>Conóce Escuela Artefusión</a></li>
+      <li><a style="--i:7" href="https://escuelaartefusion.com/colaborador/"><small>08</small>Empresas colaboradoras</a></li>
+    </ol>
+    <div class="menu-foot">
+      <a href="conocenos.html#equipo">Nuestro equipo</a>
+      <a href="espacios.html">Espacios Artefusion</a>
+      <a href="merchandising.html">Merchandising</a>
+      <a href="conocenos.html#marcas">Nuestras marcas</a>
+    </div>
+  </div>
+</div>
+
+
+
+<header class="p-hero" id="top">
+  <div class="wrap">
+    <div class="p-kicker fade"><span class="pill"><span class="beat" aria-hidden="true"></span>Alquiler de aulas</span><span class="pill">Leganés y Alcorcón</span></div>
+    <h1 class="p-title" aria-label="Espacios, descubre nuestras aulas"><span class="t1" id="t1">Espacios</span><span class="t2" id="t2">descubre nuestras aulas</span></h1>
+    <p class="lead-in fade">Aulas e instalaciones pensadas para tu comodidad y rendimiento. Alquila una sala en Leganés o Alcorcón por horas, semanas, meses o todo el año.</p>
+    <div class="hero-btns fade"><a class="btn btn--orange" href="#alquilar">Consultar disponibilidad</a><a class="btn btn--line" href="#aulas">Ver las aulas</a></div>
+  </div>
+</header>
+
+<main id="contenido">
+
+<section class="sec alt" aria-labelledby="f-h">
+  <div class="wrap">
+    <h2 id="f-h" class="display rv">Espacios diseñados para ti</h2>
+    <p class="lede rv">Nuestras instalaciones favorecen el aprendizaje y la creatividad. Las aulas de Leganés son amplias, con aire acondicionado y equipadas para clases de baile y música.</p>
+    <div class="feat">
+      <div class="f rv" style="--c:var(--cyan)"><h3>Salas de baile</h3><p>Con espejos, suelo adecuado y equipo de sonido profesional.</p></div>
+      <div class="f rv" style="--c:var(--orange);--d:1"><h3>Aulas de música</h3><p>Insonorizadas y con buenos instrumentos para clases individuales y en grupo.</p></div>
+      <div class="f rv" style="--c:var(--green);--d:2"><h3>Zonas comunes</h3><p>Espacios para alumnos y acompañantes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="aulas" data-sede="leganes" aria-labelledby="a-h">
+  <div class="wrap">
+    <h2 id="a-h" class="display rv">Elige tu aula</h2>
+    <p class="lede rv">Uso exclusivo para ensayos de baile, danza, música y bienestar. Salas con iluminación natural y de estudio, aire acondicionado, calefacción y, en algunas, tarima de madera.</p>
+    <div class="seg" role="group" aria-label="Sede">
+      <button type="button" data-sede="leganes" aria-pressed="true">Leganés</button>
+      <button type="button" data-sede="alcorcon" aria-pressed="false">Alcorcón</button>
+    </div>
+    <div class="rooms" id="rooms"></div>
+  </div>
+</section>
+
+<section class="rent" id="alquilar" aria-labelledby="r-h">
+  <div class="wrap form-grid">
+    <div>
+      <h2 id="r-h" class="display rv">¿Quieres alquilar una de nuestras salas?</h2>
+      <p class="t rv">Rellena el formulario y consulta la disponibilidad.</p>
+      <p class="t rv">Al enviar se abre WhatsApp con tu mensaje ya escrito. Solo tienes que pulsar enviar.</p>
+    </div>
+    <form class="f rv" id="form" novalidate>
+      <div class="fld"><label for="nombre">Nombre y apellidos</label><input id="nombre" autocomplete="name"><span class="err" id="e-nombre"></span></div>
+      <div class="two">
+        <div class="fld"><label for="tel">Teléfono</label><input id="tel" type="tel" autocomplete="tel"><span class="err" id="e-tel"></span></div>
+        <div class="fld"><label for="mail">Correo electrónico</label><input id="mail" type="email" autocomplete="email"></div>
+      </div>
+      <div class="fld"><label for="sala">Sala de interés</label><select id="sala"></select></div>
+      <div class="fld"><span class="lbl" style="font:600 14px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase">Horario</span>
+        <div class="opts" role="group" aria-label="Horario"><label><input type="radio" name="hor" value="mañanas" checked> Mañanas</label><label><input type="radio" name="hor" value="tardes"> Tardes</label></div></div>
+      <div class="fld"><label for="consulta">Preguntas y comentarios</label><textarea id="consulta" style="min-height:100px"></textarea></div>
+      <div class="send">
+        <a class="btn btn--ink" id="send" href="#alquilar" role="button">Consultar por WhatsApp
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <small>Tus datos solo se usan para escribir el mensaje.</small>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="cta" aria-labelledby="c-h">
+  <div class="wrap cols">
+    <h2 id="c-h" class="display">¿Prefieres bailar con nosotros?</h2>
+    <a class="btn btn--ink" href="prueba.html">Prueba una clase gratis</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h3>Artefusión</h3>
+        <p style="max-width:34ch">Escuela de baile, danza, música, bienestar y ocio en Leganés y Alcorcón.</p>
+      </div>
+      <div>
+        <h3>La escuela</h3>
+        <a href="tarifas.html">Tarifas</a>
+        <a href="planes.html">Planes y registros</a>
+        <a href="https://escuelaartefusion.com/eventos/">Eventos realizados</a>
+        <a href="conocenos.html">Conóce Escuela Artefusión</a>
+        <a href="conocenos.html#equipo">Nuestro equipo</a>
+        <a href="https://escuelaartefusion.com/colaborador/">Empresas colaboradoras</a>
+        <a href="https://escuelaartefusion.com/blog/">Blog</a>
+        <a href="https://escuelaartefusion.com/preguntas-frecuentes/">Preguntas frecuentes</a>
+        <a href="https://escuelaartefusion.com/trabaja-con-nosotros/">Trabaja con nosotros</a>
+      </div>
+      <div>
+        <h3>Síguenos</h3>
+        <a href="https://www.instagram.com/escuela_artefusion_leganes/">Instagram Leganés</a>
+        <a href="https://www.instagram.com/escuela_artefusion_alcorcon/">Instagram Alcorcón</a>
+        <a href="https://www.tiktok.com/@escuelaartefusion">TikTok</a>
+        <a href="https://www.youtube.com/c/ArtefusionLeganes">YouTube</a>
+        <a href="https://www.facebook.com/ESCUELA.ARTEFUSION/">Facebook</a>
+      </div>
+    </div>
+    <div class="foot-big" aria-hidden="true">artefusión</div>
+    <div class="foot-legal">
+      <a href="https://escuelaartefusion.com/politica-privacidad/">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var esc = function(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')};
+  var wa = function(p,t){return 'https://api.whatsapp.com/send?phone='+p+'&text='+encodeURIComponent(t)};
+  function split(el){
+    var t = el.textContent, i = split.n||0; el.textContent='';
+    Array.prototype.forEach.call(t,function(c){
+      var s = document.createElement('span');
+      if(c===' '){ s.className='sp'; } else { s.className='l'; s.textContent=c.toUpperCase(); s.style.setProperty('--i',i++); }
+      s.setAttribute('aria-hidden','true'); el.appendChild(s);
+    });
+    split.n = i;
+  }
+  split($('#t1')); split($('#t2'));
+  var menu = $('#menu'), mb = $('#menuBtn'), mc = $('#menuClose');
+  function setMenu(o){
+    menu.classList.toggle('open',o); mb.setAttribute('aria-expanded',o);
+    document.body.style.overflow = o ? 'hidden' : '';
+    if(o) setTimeout(function(){ mc.focus(); },60); else mb.focus();
+  }
+  mb.addEventListener('click',function(){ setMenu(true); });
+  mc.addEventListener('click',function(){ setMenu(false); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape' && menu.classList.contains('open')) setMenu(false); });
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  function reveal(){ $$('.rv:not(.in)').forEach(function(el){ io.observe(el); }); }
+  var WAL = '34623410390', WAA = '34627965225';
+
+  var R = {
+   leganes:[{n:'Sala Principal',m:68,p:35,t:['Tarima','Espejos','Diáfana'],eq:'Equipo de música y climatización'}],
+   alcorcon:[
+    {n:'Sala Cristal',m:25,p:30,t:['Espejos','Luz natural','Altavoces Bluetooth','Focos RGB'],eq:'Aire acondicionado y calefacción'},
+    {n:'Estudio 1',m:45,p:35,t:['Tarima','Espejos','Altavoces Bluetooth','Luz natural','Iluminación RGB'],eq:'Aire acondicionado y calefacción'},
+    {n:'Estudio 2',m:75,p:45,t:['Suelo de plaqueta','Espejos','Altavoces Bluetooth','Luz natural','Iluminación RGB'],eq:'Aire acondicionado y calefacción'},
+    {n:'Aula de Música y Canto',m:18,p:30,t:['Tarima','Espejo','Pizarra de pentagrama','Acceso a exterior'],eq:'3 pianos de pared, 4 ukeleles, 2 guitarras, 2 teclados eléctricos y atriles. Aire acondicionado y calefacción.'}]
+  };
+  var sede='leganes', sec=$('#aulas');
+  function show(k){
+    sede=k; sec.dataset.sede=k; sec.style.setProperty('--sc', k==='leganes'?'var(--cyan)':'var(--orange)');
+    $$('.seg button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.sede===k); });
+    $('#rooms').innerHTML = R[k].map(function(r,i){
+      return '<article class="room" style="--k:'+i+'"><div class="top"><h3>'+esc(r.n)+'</h3><div class="m2">'+r.m+'<small> m²</small></div></div>'+
+        '<div class="tags">'+r.t.map(function(t){return '<span class="tagc">'+esc(t)+'</span>'}).join('')+'</div>'+
+        '<p class="eq">'+esc(r.eq)+'</p>'+
+        '<div class="bot"><div class="pr">'+r.p+' €<small> / hora</small></div><button type="button" class="btn btn--ink" data-r="'+esc(r.n)+'">Alquilar esta sala</button></div></article>';
+    }).join('');
+  }
+  $$('.seg button').forEach(function(b){ b.addEventListener('click',function(){ show(b.dataset.sede); }); });
+
+  /* Formulario */
+  var ALL=[]; Object.keys(R).forEach(function(k){ R[k].forEach(function(r){ ALL.push({k:k,n:r.n}); }); });
+  $('#sala').innerHTML = ALL.map(function(r){ return '<option value="'+esc(r.n)+'" data-k="'+r.k+'">'+esc(r.n)+' ('+(r.k==='leganes'?'Leganés':'Alcorcón')+')</option>'; }).join('');
+  var F={nombre:$('#nombre'),tel:$('#tel'),mail:$('#mail'),sala:$('#sala'),cons:$('#consulta')}, send=$('#send');
+  function hor(){ return $('input[name=hor]:checked').value; }
+  function phone(){ return F.sala.selectedOptions[0].dataset.k==='leganes' ? WAL : WAA; }
+  function upd(){
+    var t='Hola, soy '+F.nombre.value.trim()+'. Quiero consultar la disponibilidad de la '+F.sala.value+' ('+(F.sala.selectedOptions[0].dataset.k==='leganes'?'Leganés':'Alcorcón')+') en horario de '+hor()+'.'+(F.cons.value.trim()?'\n\n'+F.cons.value.trim():'')+'\n\nTeléfono: '+F.tel.value.trim()+(F.mail.value.trim()?'\nCorreo: '+F.mail.value.trim():'');
+    send.href=wa(phone(),t);
+  }
+  $('#form').addEventListener('input',function(e){ upd(); var el=e.target; if(el.getAttribute('aria-invalid')==='true' && el.value.trim()){ el.setAttribute('aria-invalid','false'); var m=$('#e-'+el.id); if(m) m.textContent=''; } });
+  $('#form').addEventListener('change',upd);
+  $('#rooms').addEventListener('click',function(e){ var b=e.target.closest('[data-r]'); if(!b) return; F.sala.value=b.dataset.r; upd(); $('#alquilar').scrollIntoView({behavior:RM?'auto':'smooth'}); });
+  send.addEventListener('click',function(e){
+    var ok=true; [['nombre','Escribe tu nombre.'],['tel','Escribe un teléfono.']].forEach(function(r){ var bad=!F[r[0]].value.trim(); F[r[0]].setAttribute('aria-invalid',bad); $('#e-'+r[0]).textContent=bad?r[1]:''; if(bad) ok=false; });
+    if(!ok){ e.preventDefault(); var b=$('[aria-invalid="true"]'); if(b) b.focus(); } else upd();
+  });
+  show('leganes'); upd(); reveal();
+})();
+</script>
+
+</body>
+</html>

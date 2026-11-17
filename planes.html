@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Calendario de eventos de ocio 2026/2027 de Escuela Artefusión: cena de Navidad, cabalgata, Saturday Latín, Bachasurf y más.">
+<title>Planes Artefusión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Inter:wght@400;500;600&display=swap">
+<style>
+
+/* Concepto: "Todo late a 120 bpm". Colores del logo (cian, naranja, verde) sobre negro azulado y papel crema. Un pulso de 0,5 s (120 bpm) mueve el menú, el título y el ecualizador. */
+:root{
+  --ink:#0b0e14; --ink-2:#151a24; --ink-3:#232a38;
+  --paper:#f4efe4; --paper-2:#e9e2d2;
+  --cyan:#00b5d1; --orange:#fa7902; --green:#08f70b;
+  --muted-d:#a9b2c0; --muted-l:#4a4f5a;
+  --f-display:"Bricolage Grotesque","Arial Narrow",Arial,sans-serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-io:cubic-bezier(.77,0,.175,1);
+  --gut:clamp(16px,4vw,56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 17px/1.55 var(--f-body);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+a:focus-visible,button:focus-visible{outline:3px solid currentColor;outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{width:100%;max-width:1440px;margin:0 auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.eyebrow{font:600 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase}
+.display{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;text-transform:uppercase;line-height:.9;letter-spacing:-.01em;text-wrap:balance}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:2px solid transparent;font:600 16px/1 var(--f-body);text-decoration:none;cursor:pointer;transition:transform 160ms var(--ease-out),background-color 200ms ease,color 200ms ease,border-color 200ms ease}
+.btn:active{transform:scale(.97)}
+.btn--orange{background:var(--orange);color:var(--ink)}
+.btn--ink{background:var(--ink);color:var(--paper)}
+.btn--paper{background:var(--paper);color:var(--ink)}
+.btn--line{border-color:currentColor;background:transparent}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:scale(.97)}
+  .btn--orange:hover{background:var(--paper)}
+  .btn--ink:hover{background:var(--ink-3)}
+  .btn--paper:hover{background:var(--cyan)}
+  .btn--line:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+}
+.arrow{width:18px;height:18px;flex:none}
+
+/* navegación */
+.nav{position:fixed;z-index:50;top:max(12px,env(safe-area-inset-top,0px));left:0;right:0;pointer-events:none}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto;width:fit-content;min-width:min(100% - 2*max(var(--gut),env(safe-area-inset-left,0px)),1440px - 2*var(--gut));max-width:calc(100% - 2*max(var(--gut),env(safe-area-inset-left,0px)));margin:0 auto;padding:8px 8px 8px 22px;border-radius:999px;background:rgba(11,14,20,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(244,239,228,.12)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 24px/1 var(--f-display);font-variation-settings:"wdth" 80;letter-spacing:-.02em;min-height:44px}
+.beat{width:10px;height:10px;border-radius:50%;background:var(--green);animation:beat .5s ease-out infinite}
+@keyframes beat{0%{transform:scale(1.7);opacity:1}100%{transform:scale(1);opacity:.7}}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-cta{min-height:44px;padding:0 20px;font-size:15px}
+.menu-btn{min-height:44px;min-width:44px;padding:0 18px;border-radius:999px;border:2px solid rgba(244,239,228,.35);background:transparent;color:var(--paper);font:600 15px/1 var(--f-body);cursor:pointer;transition:background-color 200ms,transform 160ms var(--ease-out)}
+.menu-btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.menu-btn:hover{background:var(--paper);color:var(--ink)}}
+@media (max-width:560px){.nav-cta{display:none}.nav-in{padding-left:18px}}
+
+.menu{position:fixed;inset:0;z-index:60;background:var(--ink);visibility:hidden;clip-path:circle(0 at calc(100% - 52px) 40px);transition:clip-path .7s var(--ease-io),visibility 0s .7s;overflow-y:auto}
+.menu.open{visibility:visible;clip-path:circle(150% at calc(100% - 52px) 40px);transition:clip-path .7s var(--ease-io),visibility 0s}
+.menu-in{min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:28px;padding-block:96px 40px}
+.menu-close{position:absolute;top:max(12px,env(safe-area-inset-top,0px));right:max(var(--gut),env(safe-area-inset-right,0px));z-index:2}
+.menu ol{display:flex;flex-direction:column}
+.menu li{overflow:hidden;border-bottom:1px solid rgba(244,239,228,.14)}
+.menu li a{display:flex;align-items:baseline;gap:16px;padding:6px 0;text-decoration:none;font:800 clamp(2rem,6.4vw,4.6rem)/1.05 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase;transform:translateY(105%);transition:transform .6s var(--ease-out),color .2s}
+.menu li a small{font:600 13px/1 var(--f-body);color:var(--muted-d);letter-spacing:.1em}
+.menu.open li a{transform:none;transition-delay:calc(var(--i)*45ms + 250ms),0s}
+@media (hover:hover) and (pointer:fine){.menu li a:hover{color:var(--orange)}}
+.menu-foot{display:flex;flex-wrap:wrap;gap:12px 28px;color:var(--muted-d);font-size:16px}
+.menu-foot a{min-height:44px;display:inline-flex;align-items:center}
+
+
+.beat{animation:beat .5s ease-out infinite}
+.p-hero{background:var(--ink);padding-top:clamp(112px,17svh,160px);padding-bottom:clamp(28px,4vw,56px);overflow:clip}
+.p-kicker{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:clamp(14px,2.4vw,28px)}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 16px;border-radius:999px;border:2px solid var(--ink-3);font:600 13px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase}
+.pill.hot{border-color:var(--orange);color:var(--orange)}
+.p-title{font-family:var(--f-display);font-weight:800;font-variation-settings:"wdth" 75;text-transform:uppercase;line-height:.84}
+.p-title .t1{display:block;font-size:min(21vw,25svh);overflow:hidden;padding-top:.06em}
+.p-title .t2{display:block;font-size:min(10.5vw,10svh);margin-top:.1em;color:var(--cyan);overflow:hidden;padding-top:.06em}
+.p-title .l{display:inline-block;transform:translateY(115%);animation:rise .85s var(--ease-out) forwards;animation-delay:calc(var(--i)*45ms + .1s)}
+.p-title .sp{display:inline-block;width:.28em}
+@keyframes rise{to{transform:none}}
+.notice{margin-top:clamp(20px,3vw,36px);max-width:760px;padding:18px 22px;border:2px solid var(--orange);border-radius:18px;display:flex;gap:16px;align-items:center;font-size:17px}
+.notice b{color:var(--orange)}
+.notice .beat{background:var(--orange);flex:none}
+.p-hero .fade{opacity:0;transform:translateY(14px);animation:fadeUp .8s var(--ease-out) 1s forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+.lead-in{margin-top:clamp(18px,3vw,30px);max-width:56ch;font-size:clamp(1.1rem,1.6vw,1.35rem);color:var(--paper)}
+.hero-btns{margin-top:clamp(20px,3vw,32px);display:flex;flex-wrap:wrap;gap:12px}
+.menu li a.sub{font-size:clamp(1.3rem,3.2vw,2.2rem);color:var(--muted-d)}
+.sec{background:var(--ink);padding-block:clamp(56px,8vw,110px);--sc:var(--cyan)}
+.sec.alt{background:var(--ink-2)}
+.sec h2{font-size:clamp(2.4rem,6vw,5.6rem);margin-bottom:clamp(18px,3vw,32px)}
+.sec .lede{font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:50ch;color:var(--muted-d);margin:-8px 0 clamp(20px,3vw,36px)}
+.rowc{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink-3);background:transparent;color:var(--paper);font:600 15px/1 var(--f-body);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background-color .2s,color .2s,border-color .2s,transform 160ms var(--ease-out)}
+.chip:active{transform:scale(.97)}
+.chip[aria-pressed="true"]{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.chip:hover:not([aria-pressed="true"]){border-color:var(--paper)}}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:560px;margin-bottom:clamp(18px,3vw,28px)}
+.seg button{min-height:56px;border-radius:16px;border:2px solid var(--ink-3);background:transparent;color:var(--paper);font:800 clamp(1.3rem,2.4vw,1.8rem)/1 var(--f-display);font-variation-settings:"wdth" 78;text-transform:uppercase;cursor:pointer;transition:background-color .25s,border-color .25s,color .25s,transform 160ms var(--ease-out)}
+.seg button:active{transform:scale(.97)}
+.seg button[aria-pressed="true"]{color:var(--ink);background:var(--sc);border-color:var(--sc)}
+.cta{background:var(--green);color:var(--ink);padding-block:clamp(56px,8vw,110px)}
+.cta .cols{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:center;justify-content:space-between}
+.cta h2{font-size:clamp(2.6rem,6.6vw,6.4rem);max-width:12ch}
+.cta .btn{min-height:60px;padding:0 32px;font-size:18px}
+.card2{border-radius:24px;background:var(--ink-2);padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:10px}
+.tagc{padding:5px 12px;border:2px solid var(--ink-3);border-radius:999px;font:600 13px/1.2 var(--f-body);color:var(--muted-d)}
+
+.cal{margin-top:clamp(20px,3vw,32px)}
+.ev{border-top:2px solid var(--ink-3)}
+.ev:last-child{border-bottom:2px solid var(--ink-3)}
+.ev-h{position:relative;width:100%;display:grid;grid-template-columns:minmax(130px,200px) minmax(0,1fr) auto;gap:6px 22px;align-items:center;padding:18px 0;background:none;border:0;color:var(--paper);font:inherit;text-align:left;isolation:isolate;animation:rowIn .5s var(--ease-out) both;animation-delay:calc(var(--k)*30ms)}
+@keyframes rowIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+button.ev-h{cursor:pointer}
+.ev-h::before{content:"";position:absolute;inset:0 calc(-1*var(--gut));z-index:-1;background:var(--c);clip-path:inset(0 100% 0 0);transition:clip-path .45s var(--ease-out)}
+@media (hover:hover) and (pointer:fine){button.ev-h:hover{color:var(--ink)}button.ev-h:hover::before{clip-path:inset(0)}button.ev-h:hover .st{border-color:var(--ink);color:var(--ink)}}
+.ev-h .d{font:800 clamp(1.3rem,2.3vw,1.9rem)/1 var(--f-display);font-variation-settings:"wdth" 78}
+.ev-h .d small{display:block;font:600 13px/1.2 var(--f-body);letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-top:4px}
+.ev-h .n{font:700 clamp(1.3rem,2.3vw,2rem)/1.1 var(--f-display);font-variation-settings:"wdth" 88}
+.st{justify-self:end;padding:7px 16px;border:2px solid var(--ink-3);border-radius:999px;font:700 13px/1.2 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted-d);white-space:nowrap;transition:border-color .3s,color .3s}
+.st.open{border-color:var(--green);color:var(--green)}
+.st.soon{border-color:var(--orange);color:var(--orange)}
+.ev.past .ev-h{opacity:.45}
+.ev.on .ev-h .chev{transform:rotate(180deg)}
+.chev{display:inline-block;margin-left:10px;transition:transform .3s var(--ease-out)}
+@media (max-width:760px){.ev-h{grid-template-columns:minmax(0,1fr)}.st{justify-self:start}}
+.pan{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease-out)}
+.ev.on .pan{grid-template-rows:1fr}
+.pan>div{overflow:hidden;min-height:0}
+.pan-in{padding:8px 0 clamp(24px,4vw,44px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
+@media (max-width:900px){.pan-in{grid-template-columns:minmax(0,1fr)}}
+.pan h4{font:600 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin:20px 0 10px}
+.pan h4:first-child{margin-top:0}
+.pan p,.pan li{font-size:16px;color:var(--paper)}
+.pan ul{display:flex;flex-direction:column;gap:6px}
+.pan li{display:flex;gap:12px}
+.pan li b{min-width:56px;color:var(--muted-d);font-feature-settings:"tnum";font-weight:600}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+.facts .tagc{color:var(--paper);font-size:15px;padding:8px 16px}
+.facts .tagc b{color:var(--c)}
+table.pass{width:100%;border-collapse:collapse;font-size:14px;font-feature-settings:"tnum"}
+.pass th,.pass td{padding:8px 6px;border-bottom:1px solid var(--ink-3);text-align:left}
+.pass th{color:var(--muted-d);font-weight:600}
+.pass td:first-child{font-weight:600}
+.reg{background:var(--paper);color:var(--ink);border-radius:24px;padding:clamp(18px,3vw,32px)}
+.reg h4{color:var(--ink);margin-top:0}
+.reg form.f{gap:14px}
+.reg .fld input,.reg .fld select,.reg .fld textarea{min-height:50px}
+.reg .btn--ink{width:100%;justify-content:center}
+.reg .ph2{font-size:14px;color:var(--muted-l)}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+/* formulario */
+.form-sec{background:var(--paper);color:var(--ink);padding-block:clamp(64px,9vw,120px)}
+.form-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(24px,5vw,80px);align-items:start}
+.form-sec h2{font-size:clamp(2.6rem,6.6vw,6.2rem);margin-bottom:18px}
+.form-sec p.t{font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:40ch;margin-bottom:12px}
+form.f{display:flex;flex-direction:column;gap:18px}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld label{font:600 14px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase}
+.fld input,.fld select,.fld textarea{width:100%;min-height:54px;padding:14px 18px;border-radius:16px;border:2px solid var(--ink);background:#fff;color:var(--ink);font:500 17px/1.3 var(--f-body)}
+.fld textarea{min-height:140px;resize:vertical}
+.fld input:focus-visible,.fld select:focus-visible,.fld textarea:focus-visible{outline:3px solid var(--sc,var(--cyan));outline-offset:2px}
+.fld .err{color:#a1001f;font-size:14px;font-weight:600;min-height:0}
+.fld [aria-invalid="true"]{border-color:#a1001f}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:560px){.two{grid-template-columns:minmax(0,1fr)}}
+.send{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.send .btn{min-height:60px;padding:0 32px;font-size:18px}
+.send small{font-size:14px;max-width:34ch;color:var(--muted-l)}
+@media (max-width:900px){.form-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+.reg .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.reg .two{grid-template-columns:minmax(0,1fr)}}
+footer{background:var(--ink);padding-block:64px 36px;color:var(--muted-d);font-size:16px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(0,1fr));gap:36px}
+.foot-grid h3{font:600 13px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);margin-bottom:14px}
+.foot-grid a{display:flex;align-items:center;min-height:44px;text-decoration:none}
+@media (hover:hover) and (pointer:fine){.foot-grid a:hover{color:var(--orange)}}
+.foot-big{font:800 clamp(3.4rem,17vw,19rem)/.8 var(--f-display);font-variation-settings:"wdth" 75;text-transform:uppercase;color:var(--ink-2);margin-top:48px;white-space:nowrap;overflow:clip;text-align:center;user-select:none}
+.foot-legal{display:flex;flex-wrap:wrap;gap:6px 24px;margin-top:28px;font-size:14px}
+
+
+/* aparición al hacer scroll */
+html.js .rv{opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease-out),transform .8s var(--ease-out);transition-delay:calc(var(--d,0)*80ms)}
+html.js .rv.in{opacity:1;transform:none}
+
+
+@media (max-width:1000px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.foot-grid>div:first-child{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){
+  .p-title .l,.p-hero .fade,.ev-h{animation:none!important;opacity:1;transform:none}
+  .pan{transition:none}
+  .beat{animation:none}
+  html.js .rv{opacity:1;transform:none;transition:none}
+  .menu,.menu.open,.menu li a{transition-duration:.01s;transition-delay:0s}
+}
+</style>
+</head>
+<body>
+
+
+<a class="sr" href="#contenido">Saltar al contenido</a>
+
+<nav class="nav" aria-label="Principal">
+  <div class="nav-in">
+    <a class="brand" href="index.html" aria-label="Artefusión, inicio"><span class="beat" aria-hidden="true"></span>artefusión</a>
+    <div class="nav-r">
+      <a class="btn btn--orange nav-cta" href="prueba.html">Prueba una clase gratis</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    </div>
+  </div>
+</nav>
+
+<div class="menu" id="menu" role="dialog" aria-label="Menú">
+  <button class="menu-btn menu-close" id="menuClose" type="button">Cerrar</button>
+  <div class="wrap menu-in">
+    <ol>
+      <li><a style="--i:0" href="prueba.html"><small>01</small>Prueba una clase gratis</a></li>
+      <li><a style="--i:1" href="horarios.html"><small>02</small>Horarios y actividades</a></li>
+      <li><a style="--i:2" href="tarifas.html"><small>03</small>Tarifas</a></li>
+      <li><a style="--i:3" href="contacto.html"><small>04</small>Contacto</a></li>
+      <li><a style="--i:4" href="planes.html"><small>05</small>Planes y registros</a></li>
+      <li><a style="--i:5" href="https://escuelaartefusion.com/eventos/"><small>06</small>Eventos realizados</a></li>
+      <li><a style="--i:6" href="conocenos.html"><small>07</small>Conóce Escuela Artefusión</a></li>
+      <li><a style="--i:7" href="https://escuelaartefusion.com/colaborador/"><small>08</small>Empresas colaboradoras</a></li>
+    </ol>
+    <div class="menu-foot">
+      <a href="conocenos.html#equipo">Nuestro equipo</a>
+      <a href="espacios.html">Espacios Artefusion</a>
+      <a href="merchandising.html">Merchandising</a>
+      <a href="conocenos.html#marcas">Nuestras marcas</a>
+    </div>
+  </div>
+</div>
+
+
+
+<header class="p-hero" id="top">
+  <div class="wrap">
+    <div class="p-kicker fade"><span class="pill"><span class="beat" aria-hidden="true"></span>Curso 2026/2027</span><span class="pill">De septiembre a julio</span></div>
+    <h1 class="p-title" aria-label="Planes y registros, calendario de ocio"><span class="t1" id="t1">Ocio</span><span class="t2" id="t2">planes y registros</span></h1>
+    <p class="lead-in fade">Calendario y registro oficial de eventos de ocio para el curso 2026/2027. Algunos planes necesitan confirmar la asistencia: son los marcados como «Registro abierto». Toca el plan que más te guste para ver el detalle y apuntarte.</p>
+  </div>
+</header>
+
+<main id="contenido">
+
+<section class="sec" id="calendario" aria-labelledby="c-h">
+  <div class="wrap">
+    <h2 id="c-h" class="display rv">Calendario de eventos</h2>
+    <div class="rowc" id="fil" role="group" aria-label="Filtrar eventos"></div>
+    <div class="cal" id="cal"></div>
+    <p class="lede" style="margin-top:28px">¿Dudas? Escríbenos por WhatsApp y te ayudamos. Contáctanos para cualquier pregunta.</p>
+    <div class="hero-btns"><a class="btn btn--orange" id="waq" href="#">Chat en WhatsApp</a><a class="btn btn--line" href="contacto.html">Contacto y sedes</a></div>
+  </div>
+</section>
+
+<section class="cta" aria-labelledby="k-h">
+  <div class="wrap cols">
+    <h2 id="k-h" class="display">Bailamos juntos</h2>
+    <a class="btn btn--ink" href="prueba.html">Prueba una clase gratis</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h3>Artefusión</h3>
+        <p style="max-width:34ch">Escuela de baile, danza, música, bienestar y ocio en Leganés y Alcorcón.</p>
+      </div>
+      <div>
+        <h3>La escuela</h3>
+        <a href="tarifas.html">Tarifas</a>
+        <a href="planes.html">Planes y registros</a>
+        <a href="https://escuelaartefusion.com/eventos/">Eventos realizados</a>
+        <a href="conocenos.html">Conóce Escuela Artefusión</a>
+        <a href="conocenos.html#equipo">Nuestro equipo</a>
+        <a href="https://escuelaartefusion.com/colaborador/">Empresas colaboradoras</a>
+        <a href="https://escuelaartefusion.com/blog/">Blog</a>
+        <a href="https://escuelaartefusion.com/preguntas-frecuentes/">Preguntas frecuentes</a>
+        <a href="https://escuelaartefusion.com/trabaja-con-nosotros/">Trabaja con nosotros</a>
+      </div>
+      <div>
+        <h3>Síguenos</h3>
+        <a href="https://www.instagram.com/escuela_artefusion_leganes/">Instagram Leganés</a>
+        <a href="https://www.instagram.com/escuela_artefusion_alcorcon/">Instagram Alcorcón</a>
+        <a href="https://www.tiktok.com/@escuelaartefusion">TikTok</a>
+        <a href="https://www.youtube.com/c/ArtefusionLeganes">YouTube</a>
+        <a href="https://www.facebook.com/ESCUELA.ARTEFUSION/">Facebook</a>
+      </div>
+    </div>
+    <div class="foot-big" aria-hidden="true">artefusión</div>
+    <div class="foot-legal">
+      <a href="https://escuelaartefusion.com/politica-privacidad/">Política de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var esc = function(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')};
+  var wa = function(p,t){return 'https://api.whatsapp.com/send?phone='+p+'&text='+encodeURIComponent(t)};
+  function split(el){
+    var t = el.textContent, i = split.n||0; el.textContent='';
+    Array.prototype.forEach.call(t,function(c){
+      var s = document.createElement('span');
+      if(c===' '){ s.className='sp'; } else { s.className='l'; s.textContent=c.toUpperCase(); s.style.setProperty('--i',i++); }
+      s.setAttribute('aria-hidden','true'); el.appendChild(s);
+    });
+    split.n = i;
+  }
+  split($('#t1')); split($('#t2'));
+  var menu = $('#menu'), mb = $('#menuBtn'), mc = $('#menuClose');
+  function setMenu(o){
+    menu.classList.toggle('open',o); mb.setAttribute('aria-expanded',o);
+    document.body.style.overflow = o ? 'hidden' : '';
+    if(o) setTimeout(function(){ mc.focus(); },60); else mb.focus();
+  }
+  mb.addEventListener('click',function(){ setMenu(true); });
+  mc.addEventListener('click',function(){ setMenu(false); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape' && menu.classList.contains('open')) setMenu(false); });
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  function reveal(){ $$('.rv:not(.in)').forEach(function(el){ io.observe(el); }); }
+  var WAL = '34623410390', WAA = '34627965225';
+
+  $('#waq').href = wa(WAL,'Hola, tengo una duda sobre los planes de ocio.');
+  var BASE_TEL='34679762594';
+  var T=function(y,m,d){return new Date(y,m-1,d,23,59)};
+  var E = [
+   {id:'halloween',n:'Halloween Artefusión',d:'26–31 octubre',end:T(2026,10,31)},
+   {id:'cumpleboss',n:'Cumpleboss',d:'Sábado 14 noviembre',end:T(2026,11,14)},
+   {id:'tardeo1',n:'Salida tardeo alumnos/as',d:'Sábado 21 noviembre',end:T(2026,11,21)},
+   {id:'invierno',n:'Festival de Invierno Junior e Infantil',d:'Sábado 12 diciembre',end:T(2026,12,12)},
+   {id:'cena',n:'Cena Navideña',d:'Sábado 19 diciembre',end:T(2026,12,19),st:'open',c:'var(--orange)'},
+   {id:'canas',n:'Cañas Nochebuena y Nochevieja',d:'Jueves 24 y 31 diciembre',end:T(2026,12,31)},
+   {id:'cabalgata',n:'Cabalgata de Reyes',d:'Martes 5 enero',end:T(2027,1,5),st:'open',c:'var(--green)'},
+   {id:'tardeo2',n:'Salida tardeo alumnos/as',d:'Sábado 13 febrero',end:T(2027,2,13)},
+   {id:'carnavales',n:'Carnavales vs San Valentín',d:'Fecha por confirmar',end:T(2027,2,28)},
+   {id:'saturdaylatin',n:'3º Saturday Latín',d:'Sábado 13 marzo',end:T(2027,3,13),st:'open',c:'var(--cyan)'},
+   {id:'romeria',n:'Romería Artefusión',d:'Sábado 22 mayo',end:T(2027,5,22),st:'soon'},
+   {id:'findecurso',n:'Festival Fin de Curso',d:'Junio 2027',end:T(2027,6,30),st:'soon'},
+   {id:'bachasurf',n:'Bachasurf 2027',d:'19–25 julio',end:T(2027,7,25),st:'open',c:'var(--orange)'}
+  ];
+  var now=new Date();
+  E.forEach(function(e){ e.past=e.end<now; });
+
+  /* Detalle de los eventos con registro */
+  var fld=function(id,label,type,o){o=o||{};return {id:id,label:label,type:type||'text',req:o.req,opts:o.opts,ph:o.ph}};
+  var DET = {
+   cena:{
+    facts:[['Cuándo','Sábado 19 diciembre, 20:00 a 05:00'],['Dónde','Restaurante Oasis, Getafe'],['Precio','52 € por persona']],
+    left:'<h4>Programa</h4><ul><li><b>20:00</b>Copa de bienvenida en la cafetería</li><li><b>22:00</b>Cena, con sorteo de la Porra Navideña, canciones y fotos</li><li><b>00:00</b>Salida del restaurante mientras se prepara la pista (café en la cafetería)</li><li><b>00:30</b>Fiesta en la sala convertida en pista, hasta las 05:00</li></ul>'+
+     '<h4>Ambiente</h4><p>Dos zonas: un bar con la sala principal de baile y una «zona flamenquita» con guitarra, cajón, palmas y cante en directo.</p>'+
+     '<h4>Menú</h4><p><b>Para compartir:</b> surtido de ibéricos, croquetas de jamón, pimientos rellenos de bacalao, huevos rotos con torreznos y berenjena con miel y panko.</p><p><b>Principal (a elegir):</b> carrilleras al estilo cordobés, bacalao con pisto o menú vegano/especial.</p><p><b>Postre:</b> tarta de coco con dulce de leche o helado de galleta.</p><p><b>Bebida incluida en la cena:</b> agua, cerveza, refrescos, vino tinto (Rivera) y vino blanco semidulce (Alma).</p>'+
+     '<h4>Bebidas de la fiesta (no incluidas)</h4><p>Refrescos 3 €, cócteles 6,50 €, agua y/o chupitos 2 €, bebidas especiales (tipo Red Bull) 1 € extra.</p>'+
+     '<h4>Condiciones</h4><p>Mesas de 8: si quieres ir con tu grupo, avisa a la escuela; si no, os asignamos mesa. Es un evento privado: para entrar a la fiesta hay que haber cenado. Pueden venir invitados que no sean alumnos, indícalos en el formulario. Los menús especiales se hablan en persona. Hay que rellenar el formulario y pagar en efectivo en la escuela antes del <b>viernes 11 de diciembre</b>.</p>',
+    fields:[fld('nombre','Nombre y apellidos','text',{req:1}),fld('tel','Teléfono','tel',{req:1}),fld('mail','Correo electrónico','email'),fld('tipo','¿Eres alumno/a o invitado/a?','select',{req:1,opts:['Alumno/a','Invitado/a']}),fld('acomp','Nombre del acompañante (si eres invitado/a)'),fld('plato','Plato principal','select',{req:1,opts:['Carrilleras al estilo cordobés','Bacalao con pisto manchego','Menú especial']})],
+    msg:function(v){return 'Hola, soy '+v.nombre+'. Quiero apuntarme a la Cena Navideña del 19 de diciembre ('+v.tipo+'). Plato principal: '+v.plato+'.'+(v.acomp?' Acompañante: '+v.acomp+'.':'')+'\n\nTeléfono: '+v.tel+(v.mail?'\nCorreo: '+v.mail:'');},
+    phone:WAL
+   },
+   cabalgata:{
+    facts:[['Cuándo','Martes 5 enero 2027'],['Dónde','Cabalgata de Reyes de Leganés'],['Para participar','Estar inscrito en la Asociación Cultural (5 €/año)']],
+    left:'<h4>El plan</h4><p>Participa en la Cabalgata de Reyes de Leganés con nosotros: desfilamos bailando y saltando, y repartimos caramelos a los niños.</p><h4>Cómo apuntarte</h4><p>Confirma tu asistencia en el formulario. Después crearemos un grupo de WhatsApp con todos los asistentes.</p><h4>Condiciones</h4><p>Hay que estar inscrito en la Asociación Cultural Artefusión para participar. Si tienes dudas, escríbenos.</p>',
+    fields:[fld('nombre','Nombre y apellidos del alumno o tutor legal','text',{req:1}),fld('menor','Nombre y apellidos del alumno menor de edad'),fld('edad','Edad del alumno o del menor','number',{req:1}),fld('tel','Teléfono','tel',{req:1}),fld('mail','Correo electrónico','email'),fld('cara','Quiero repartir felicidad y tirar caramelos','check')],
+    msg:function(v){return 'Hola, soy '+v.nombre+'. Quiero confirmar la asistencia a la Cabalgata de Reyes del 5 de enero.'+(v.menor?' Alumno menor: '+v.menor+'.':'')+' Edad: '+v.edad+'.'+(v.cara==='on'?' Quiero repartir felicidad y tirar caramelos.':'')+'\n\nTeléfono: '+v.tel+(v.mail?'\nCorreo: '+v.mail:'');},
+    phone:WAL
+   },
+   saturdaylatin:{
+    facts:[['Cuándo','Sábado 13 marzo 2027'],['Dónde','Hotel Los Ángeles, Getafe'],['Parking','Privado, hasta completar aforo']],
+    left:'<h4>Programa</h4><ul><li><b>11:30</b>Taller de bachata · Facu &amp; Ainhoa</li><li><b>12:30</b>Taller de rueda de salsa casino · María Julia &amp; Ronald</li><li><b>13:30</b>Taller de bachata · Iván &amp; Carol</li><li><b>14:30</b>Descanso para comer (libre)</li><li><b>17:00</b>Taller de salsa con timba · Ale Lopez</li><li><b>18:00</b>Taller de bachata fusión · Iván &amp; Amanda</li><li><b>19:00</b>Taller de bachata tradicional · Alicia &amp; Junior</li><li><b>20:00</b>Taller de estilos: Lady vs Men</li><li><b>21:30</b>Cena buffet (para quien se apunte) y/o tiempo libre</li><li><b>23:30</b>Shows</li><li><b>00:30</b>Social SB hasta las 04:30</li></ul><p style="margin-top:10px">Artistas: Iván &amp; Carol, Junior &amp; Alicia, María Julia &amp; Ronald, Facu &amp; Ainhoa, Iván &amp; Amanda, Ale Lopez, Sofi &amp; Mati, Almudena y Equipo Artefusión.</p>'+
+     '<h4>Full Pass y precios</h4><table class="pass"><thead><tr><th>Pase</th><th>Hasta 31 ene</th><th>Febrero</th><th>1–7 mar</th><th>13 mar</th></tr></thead><tbody>'+
+     '<tr><td>1 · Talleres + shows + Social</td><td>35 €</td><td>40 €</td><td>45 €</td><td>50 €</td></tr>'+
+     '<tr><td>2 · Talleres + cena buffet + shows + Social</td><td>50 €</td><td>55 €</td><td>60 €</td><td>65 €</td></tr>'+
+     '<tr><td>3 · Solo talleres y shows</td><td>25 €</td><td>30 €</td><td>35 €</td><td>40 €</td></tr>'+
+     '<tr><td>4 · Shows + Social</td><td>25 €</td><td>30 €</td><td>35 €</td><td>40 €</td></tr>'+
+     '<tr><td>5 · Solo Social</td><td>20 €</td><td>25 €</td><td>30 €</td><td>35 €</td></tr></tbody></table>'+
+     '<h4>Condiciones</h4><p>Se aplica el precio de la fecha en que pagues el Full Pass (el precio anticipado desde el 20 de octubre de 2026). Los pases con Social incluyen 2 refrescos, 2 cervezas o 1 cóctel. En el buffet las bebidas se pagan aparte; el agua en jarra es gratis. El pago del 13 de marzo es solo en efectivo en la puerta.</p>'+
+     '<h4>Cómo pagar</h4><p>Apúntate con el formulario y paga en cualquiera de las escuelas de Artefusión, o por transferencia al IBAN <b>ES48 2100 1969 5102 0040 1450</b> con el concepto «Saturday Latín» y el número de tu Full Pass (1 a 5).</p>',
+    fields:[fld('nombre','Nombre y apellidos','text',{req:1}),fld('tel','Teléfono','tel',{req:1}),fld('mail','Correo electrónico','email'),fld('pass','Tu Full Pass','select',{req:1,opts:['1 · Talleres + shows + Social','2 · Talleres + cena buffet + shows + Social','3 · Solo talleres y shows','4 · Shows + Social','5 · Solo Social']}),fld('prom','Escoge tu promotor','select',{req:1,opts:['Escuela Artefusión','Yo Bailo','RL Dance Madrid','Central Moves','Junior y Alicia','Iván y Amanda','Ale Lopez','Facu y Ainhoa','Otros']})],
+    msg:function(v){return 'Hola, soy '+v.nombre+'. Quiero apuntarme al Saturday Latín del 13 de marzo. Full Pass: '+v.pass+'. Promotor: '+v.prom+'.\n\nTeléfono: '+v.tel+(v.mail?'\nCorreo: '+v.mail:'');},
+    phone:WAL
+   },
+   bachasurf:{
+    facts:[['Cuándo','19–25 julio 2027'],['Dónde','San Vicente de la Barquera, Cantabria'],['Plazas','22 por viaje'],['Precio','575 €']],
+    left:'<h4>El plan</h4><p>Una semana que combina clases de baile, surf y paddle surf en las playas de San Vicente de la Barquera, con convivencia y una fiesta sorpresa.</p><h4>Incluye</h4><ul><li>Alojamiento y desayuno</li><li>Talleres de baile y de cajón flamenco</li><li>Clases de surf y paddle surf, con equipación y tablas</li><li>Fiesta sorpresa</li><li>Una aventura adicional para los más atrevidos</li></ul><h4>Reserva</h4><p>Para validar tu plaza hay que dejar una señal de 50 € en cualquiera de las escuelas. La señal se descuenta del total, que se paga en dos pagos. Las plazas son limitadas.</p>',
+    fields:[fld('nombre','Nombre y apellidos','text',{req:1}),fld('tel','Teléfono','tel',{req:1}),fld('mail','Correo electrónico','email'),fld('obs','Preguntas o comentarios','area')],
+    msg:function(v){return 'Hola, soy '+v.nombre+'. Quiero reservar plaza en el Bachasurf 2027 (19–25 de julio).'+(v.obs?'\n\n'+v.obs:'')+'\n\nTeléfono: '+v.tel+(v.mail?'\nCorreo: '+v.mail:'');},
+    phone:BASE_TEL,
+    extra:'<p class="ph2">También puedes llamar al <b>679 762 594</b> o al <b>623 410 390</b>.</p>'
+   }
+  };
+
+  var FIL=[['todos','Todos'],['open','Registro abierto'],['next','Próximos']], cur='todos';
+  $('#fil').innerHTML=FIL.map(function(f){return '<button class="chip" type="button" data-f="'+f[0]+'" aria-pressed="'+(f[0]===cur)+'">'+f[1]+'</button>'}).join('');
+
+  function formHtml(e){
+    var D=DET[e.id];
+    return '<form class="f" data-e="'+e.id+'" novalidate><h4>Apúntate</h4>'+D.fields.map(function(f){
+      var id=e.id+'-'+f.id, lb='<label for="'+id+'">'+esc(f.label)+(f.req?'':' <span style="text-transform:none;letter-spacing:0;font-weight:500;opacity:.7">(opcional)</span>')+'</label>';
+      if(f.type==='select') return '<div class="fld">'+lb+'<select id="'+id+'" name="'+f.id+'">'+f.opts.map(function(o){return '<option>'+esc(o)+'</option>'}).join('')+'</select></div>';
+      if(f.type==='area') return '<div class="fld">'+lb+'<textarea id="'+id+'" name="'+f.id+'" style="min-height:90px"></textarea></div>';
+      if(f.type==='check') return '<label style="display:flex;gap:10px;align-items:center;font:500 16px/1.3 var(--f-body);text-transform:none;letter-spacing:0"><input type="checkbox" id="'+id+'" name="'+f.id+'" style="width:22px;min-height:0;accent-color:var(--ink)"> '+esc(f.label)+'</label>';
+      return '<div class="fld">'+lb+'<input id="'+id+'" name="'+f.id+'" type="'+f.type+'"'+(f.type==='number'?' min="0"':'')+'><span class="err" id="e-'+id+'"></span></div>';
+    }).join('')+'<a class="btn btn--ink" href="#" role="button" data-send="'+e.id+'">Apuntarme por WhatsApp <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><p class="ph2">Al pulsar se abre WhatsApp con tu mensaje ya escrito.</p>'+(D.extra||'')+'</form>';
+  }
+  function row(e,i){
+    var D=DET[e.id], c=e.c||'var(--cyan)';
+    var st=e.past?'<span class="st">Realizado</span>':e.st==='open'?'<span class="st open">Registro abierto</span>':e.st==='soon'?'<span class="st soon">Próximamente</span>':'';
+    var head='<div class="d">'+esc(e.d)+'</div><div class="n">'+esc(e.n)+'</div><div>'+st+(D?'<span class="chev" aria-hidden="true">▾</span>':'')+'</div>';
+    if(!D) return '<div class="ev'+(e.past?' past':'')+'" id="'+e.id+'"><div class="ev-h" style="--c:'+c+';--k:'+i+'">'+head+'</div></div>';
+    return '<div class="ev'+(e.past?' past':'')+'" id="'+e.id+'" style="--c:'+c+'"><button class="ev-h" type="button" style="--c:'+c+';--k:'+i+'" aria-expanded="false" aria-controls="p-'+e.id+'">'+head+'</button><div class="pan" id="p-'+e.id+'"><div><div class="pan-in"><div><div class="facts">'+D.facts.map(function(f){return '<span class="tagc"><b>'+f[0]+':</b> '+f[1]+'</span>'}).join('')+'</div>'+D.left+'</div><div class="reg">'+formHtml(e)+'</div></div></div></div></div>';
+  }
+  function render(){
+    var l=E.filter(function(e){ return cur==='todos'||(cur==='open'&&e.st==='open'&&!e.past)||(cur==='next'&&!e.past); });
+    $('#cal').innerHTML=l.map(row).join('')||'<p class="lede">No hay eventos con este filtro.</p>';
+  }
+  function toggle(id,force){
+    var ev=document.getElementById(id); if(!ev) return;
+    var on=force!==undefined?force:!ev.classList.contains('on');
+    $$('.ev.on').forEach(function(x){ if(x!==ev){ x.classList.remove('on'); var b=$('.ev-h',x); if(b) b.setAttribute('aria-expanded','false'); } });
+    ev.classList.toggle('on',on); $('.ev-h',ev).setAttribute('aria-expanded',on);
+    if(on) setTimeout(function(){ ev.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); },60);
+  }
+  $('#fil').addEventListener('click',function(e){ var b=e.target.closest('[data-f]'); if(!b) return; cur=b.dataset.f; $$('#fil .chip').forEach(function(x){x.setAttribute('aria-pressed',x===b)}); render(); });
+  $('#cal').addEventListener('click',function(e){
+    var h=e.target.closest('button.ev-h'); if(h){ toggle(h.parentNode.id); return; }
+    var s=e.target.closest('[data-send]'); if(s){
+      e.preventDefault(); var id=s.dataset.send, D=DET[id], f=$('form[data-e="'+id+'"]'), v={}, ok=true;
+      D.fields.forEach(function(x){ var el=f.elements[x.id]; v[x.id]=el.type==='checkbox'?(el.checked?'on':''):el.value.trim(); if(x.req && !v[x.id] && el.tagName==='INPUT'){ ok=false; el.setAttribute('aria-invalid','true'); var m=$('#e-'+id+'-'+x.id); if(m) m.textContent='Campo obligatorio.'; } else if(el.setAttribute) { el.setAttribute('aria-invalid','false'); var m2=$('#e-'+id+'-'+x.id); if(m2) m2.textContent=''; } });
+      if(!ok){ var b=$('[aria-invalid="true"]',f); if(b) b.focus(); return; }
+      window.open(wa(D.phone,D.msg(v)),'_blank','noopener');
+    }
+  });
+  render();
+  function fromHash(){ var h=location.hash.replace('#',''); if(DET[h]){ cur='todos'; render(); toggle(h,true); } }
+  addEventListener('hashchange',fromHash); fromHash(); reveal();
+})();
+</script>
+
+</body>
+</html>
